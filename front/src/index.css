@@ -1,0 +1,25 @@
+:root{
+    --shadow: rgba(100, 100, 111, 0.4) 0px 7px 29px 0px;
+    --header-height: 100px;
+}
+body{
+    margin: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+#root{
+    display: grid;
+    grid-template-columns: 225px 1fr;
+    grid-template-rows: var(--header-height) 1fr;
+    grid-template-areas: 
+        "sidepanel header"
+        "sidepanel main";
+}
+aside.sidepanel{
+    grid-area: sidepanel;
+}
+main.main{
+    grid-area: main;
+}
+header.header{
+    grid-area: header;
+}
