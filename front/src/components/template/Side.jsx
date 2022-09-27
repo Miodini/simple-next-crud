@@ -6,9 +6,9 @@ export default function Side(){
     return(
         <aside className='sidepanel'>
             <Logo/>
-            <nav className='m-2'>
-                <p>Um</p>
-                <p>Dois</p>
+            <nav className='menu d-flex flex-column'>
+                <a href='#1'>Um</a>
+                <a href='#2'>Dois</a>
             </nav>
         </aside>
     )

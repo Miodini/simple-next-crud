@@ -2,6 +2,7 @@ import React from 'react'
 import Header from '../components/template/Header'
 import Side from '../components/template/Side'
 import Main from '../components/template/Main'
+import './App.css'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'font-awesome/css/font-awesome.min.css'
 
