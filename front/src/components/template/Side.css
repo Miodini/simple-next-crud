@@ -12,6 +12,7 @@
     color: inherit;
     padding: 9px;
     height: 40px;
+    border-bottom: #fff3 solid 1px;
 }
 .menu a:hover{
     background: linear-gradient(135deg, #07a7e3 0%, #32dac3 100%);;

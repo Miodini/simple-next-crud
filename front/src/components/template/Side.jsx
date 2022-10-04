@@ -7,8 +7,14 @@ export default function Side(){
         <aside className='sidepanel'>
             <Logo/>
             <nav className='menu d-flex flex-column'>
-                <a href='#1'>Um</a>
-                <a href='#2'>Dois</a>
+                <a href='#1'>
+                    <i className={'m-1 fa fa-home'} />
+                    Início
+                </a>
+                <a href='#2'>
+                    <i className={'m-1 fa fa-users'} />
+                    Cadastro
+                </a>
             </nav>
         </aside>
     )

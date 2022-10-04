@@ -1,5 +1,6 @@
 main.main{
     margin: 10px;
-    padding: 20px;
+}
+main.main > div{
     box-shadow: var(--shadow);
 }
