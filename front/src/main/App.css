@@ -3,6 +3,7 @@
     --header-height: 100px;
 }
 #root{
+    
     display: grid;
     grid-template-columns: 225px 1fr;
     grid-template-rows: var(--header-height) 1fr;

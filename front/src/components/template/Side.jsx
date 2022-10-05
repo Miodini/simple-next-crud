@@ -1,5 +1,6 @@
 import React from 'react'
 import Logo from './Logo'
+import { Link } from 'react-router-dom'
 import './Side.css'
 
 export default function Side(){
@@ -7,14 +8,14 @@ export default function Side(){
         <aside className='sidepanel'>
             <Logo/>
             <nav className='menu d-flex flex-column'>
-                <a href='#1'>
+                <Link to='/home'>
                     <i className={'m-1 fa fa-home'} />
                     Início
-                </a>
-                <a href='#2'>
+                </Link>
+                <Link to='/registration'>
                     <i className={'m-1 fa fa-users'} />
                     Cadastro
-                </a>
+                </Link>
             </nav>
         </aside>
     )
