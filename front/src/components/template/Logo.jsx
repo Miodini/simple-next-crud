@@ -4,8 +4,8 @@ import './Logo.css'
 
 export default function Logo(){
     return(
-        <div className='logo'>
+        <aside className='logo'>
             <img src={logo} alt="logo" />
-        </div>
+        </aside>
     )
 }

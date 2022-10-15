@@ -1,13 +1,11 @@
 import React from 'react'
-import Logo from './Logo'
 import { Link } from 'react-router-dom'
 import './Side.css'
 
 export default function Side(){
     return(
         <aside className='sidepanel'>
-            <Logo/>
-            <nav className='menu d-flex flex-column'>
+            <nav className='menu'>
                 <Link to='/home'>
                     <i className={'m-1 fa fa-home'} />
                     Início

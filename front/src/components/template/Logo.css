@@ -1,4 +1,11 @@
-.logo img{
-    width: 100%;
-    height: var(--header-height);
+.logo{
+    background-color: var(--bg);
+    display: flex;
+    justify-content: center;
+}
+@media (min-width: 768px){
+    /* Desktop */
+    .logo img{
+        width: 100%;
+    }
 }
