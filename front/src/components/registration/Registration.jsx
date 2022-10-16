@@ -5,9 +5,8 @@ import Name from './Name'
 import Email from './Email'
 import Gender from './Gender'
 import Phone from './Phone'
-import {successMsg, errorMsg} from './elements'
-
-/* TODO: fade-in and fade-out on confirmation msg */
+import SuccessMsg from './SuccessMsg'
+import ErrorMsg from './ErrorMsg'
 
 const initialState = {
     // The actual data inside each input
@@ -46,12 +45,13 @@ export default class Registration extends Component{
      * @param error If set to true, displays an error message instead
      */
     showConfirmationMsg(error = false){
-        const msgDuration = 10000 // ms 
+        // Callback to remove the message component from this component's state
+        const removeComponentCB = () => this.setState({confirmationMsg: null})
         if(error)
-            this.setState({confirmationMsg: errorMsg})
+            this.setState({confirmationMsg: <ErrorMsg callOnHide={removeComponentCB}z/>})
         else
-            this.setState({confirmationMsg: successMsg})
-        setTimeout(() => this.setState({confirmationMsg: null}), msgDuration)
+            this.setState({confirmationMsg: <SuccessMsg callOnHide={removeComponentCB}/>})
+        
     }
 
     async save(event){
@@ -83,7 +83,7 @@ export default class Registration extends Component{
         const userData = this.state.user
         return(
             <>
-                <Main icon='fa-home'
+                <Main icon='fa-users'
                     title='Cadastro'
                     subtitle='Cadastre as pessoas.'
                 >
