@@ -1,20 +1,6 @@
 {
   "users": [
     {
-      "id": 1,
-      "name": "Carlos",
-      "email": "Carlos@gmail.com",
-      "gender": "M",
-      "phone": "12345678"
-    },
-    {
-      "name": "Experiências",
-      "email": "lucasmondini01@gmail.com",
-      "gender": "F",
-      "phone": "123123",
-      "id": 2
-    },
-    {
       "name": "Special Week",
       "email": "lucas.mondini@unesp.br",
       "gender": "M",
@@ -22,18 +8,18 @@
       "id": 3
     },
     {
-      "name": "Fulano",
-      "email": "fulano@geleia.com",
-      "gender": "M",
-      "phone": "99999999999",
-      "id": 4
-    },
-    {
       "name": "Julia",
       "email": "julia@idolmaster.com",
       "gender": "F",
       "phone": "89564846218",
       "id": 5
+    },
+    {
+      "name": "Experiências",
+      "email": "lucasmondini01@gmail.com",
+      "gender": "M",
+      "phone": "123123",
+      "id": 6
     }
   ]
 }

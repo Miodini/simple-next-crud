@@ -10,9 +10,9 @@ export default function Side(){
                     <i className={'m-1 fa fa-home'} />
                     Início
                 </Link>
-                <Link to='/registration'>
+                <Link to='/users'>
                     <i className={'m-1 fa fa-users'} />
-                    Cadastro
+                    Usuários
                 </Link>
             </nav>
         </aside>
