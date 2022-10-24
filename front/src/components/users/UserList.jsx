@@ -17,22 +17,31 @@ export default function UserList(props){
                 default:
                     fullGender = '-'
             }
+            const buttons = () => {
+                if(!props.isPlaceholder) 
+                    return(    
+                        <>
+                            <td>
+                                <button className='btn btn-primary' onClick = {() => props.handleEdit(user)}>
+                                    <i className="fa fa-pencil"></i>
+                                </button>
+                            </td>
+                            <td>
+                                <button className='btn btn-danger' onClick = {() => props.handleDelete(user.id)}>
+                                    <i className="fa fa-trash"></i>
+                                </button>
+                            </td>
+                        </>
+                    )
+                else return null
+            }
             return(
                 <tr key={user.id}>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{fullGender}</td>
                     <td>{user.phone}</td>
-                    <td>
-                        <button className='btn btn-primary' onClick = {() => props.handleEdit(user.id)}>
-                            <i className="fa fa-pencil"></i>
-                        </button>
-                    </td>
-                    <td>
-                        <button className='btn btn-danger' onClick = {() => props.handleDelete(user.id)}>
-                            <i className="fa fa-trash"></i>
-                        </button>
-                    </td>
+                    {buttons()}
                 </tr>
             )
         })  

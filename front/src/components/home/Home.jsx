@@ -12,7 +12,7 @@ export default function Home(){
                 Este site foi criado para treinamento do autor durante seus estudos em React.
                 Caso esteja vendo esse site a partir do Github Pages, note que não haverá conexão
                 com servidor para o cadastro/recuperação de usuários. Clone e hospede a aplicação
-                disponível <a href='/#'>aqui</a> localmente  .
+                disponível <a href='https://github.com/Miodini/projetos-curso-web/tree/main/crud-react'>aqui</a> localmente  .
             </p>
         </Main>
     )

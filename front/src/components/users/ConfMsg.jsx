@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import { Alert } from 'bootstrap'
 
-export default function SuccessMsg(props){
+export default function ConfMsg(props){
     const duration = 10000
     useEffect(() =>{
         const alert = new Alert('#success-alert')
@@ -12,10 +12,10 @@ export default function SuccessMsg(props){
     })
     
     return (
-        <div>
-            <div className={`alert alert-success sticky-bottom mt-2 fade show`} id='success-alert' role='alert'>
-                <h3 className='alert-heading'>Sucesso!</h3>
-                <p>Os dados foram gravados com sucesso.</p>
+        <div className='sticky-bottom '>
+            <div className={`alert alert-${props.color} mt-2 fade show`} id='success-alert' role='alert'>
+                <h3 className='alert-heading'>{props.title}</h3>
+                <p>{props.msg}</p>
             </div>
         </div>
     )

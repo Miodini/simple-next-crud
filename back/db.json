@@ -1,25 +1,11 @@
 {
   "users": [
     {
-      "name": "Special Week",
-      "email": "lucas.mondini@unesp.br",
-      "gender": "M",
-      "phone": "6565",
-      "id": 3
-    },
-    {
-      "name": "Julia",
-      "email": "julia@idolmaster.com",
+      "name": "Rin Hoshizora",
+      "email": "rin@hoshiora.com",
       "gender": "F",
-      "phone": "89564846218",
-      "id": 5
-    },
-    {
-      "name": "Experiências",
-      "email": "lucasmondini01@gmail.com",
-      "gender": "M",
-      "phone": "123123",
-      "id": 6
+      "phone": "99999",
+      "id": 1
     }
   ]
 }
