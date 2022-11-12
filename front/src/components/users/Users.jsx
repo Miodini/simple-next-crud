@@ -37,10 +37,12 @@ export default function Users(){
      */
     async function fetchUsers(){
         try{
-            // Render users
+            // Render users if response is not empty
             const {data} = await axios(url)
-            setUsers(data)
-            setPlaceholder(false)            
+            if(data.length > 0){
+                setUsers(data)
+                setPlaceholder(false)            
+            }
             return new Promise((resolve, reject) => resolve())
         }
         catch(e){
@@ -51,9 +53,14 @@ export default function Users(){
         }
     }
 
+    // TODO: deleting multiple users without refreshing doesn't update the table correctly
     async function deleteUser(key){
         try{
-            const resp = await axios.delete(url + '/' + key)
+            const resp = await axios.delete(url, {
+                data: {
+                    id: key
+                }
+            })
             if(resp.status === 200){
                 renderConfMsg('delete')
                 fetchUsers().catch(console.error)
