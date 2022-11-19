@@ -66,6 +66,15 @@ export default class MySqlConnector{
         instruction += ' FROM users'
         return this.query(instruction) as Promise<mysql.RowDataPacket[]>
     }
+    
+    /* Returns all entries in users table but the one of the specified id. 
+     * If no field is provided, it returns all fields */
+    selectAllBut(id: number, field?: 'name' | 'email' | 'gender' | 'phone'): Promise<mysql.RowDataPacket[]>{
+        let instruction = 'SELECT '
+        instruction += field ? field : '*'
+        instruction += ' FROM users WHERE id != ' + id
+        return this.query(instruction) as Promise<mysql.RowDataPacket[]>
+    }
 
     /* Inserts a user in the database. */
     insert({name, email, gender, phone}: t.User): Promise<mysql.ResultSetHeader>{

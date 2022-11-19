@@ -66,17 +66,36 @@ app.post('/users', async (req, res) => {
     }
 })
 
-app.put('/users/:id', (req, res) => {
+app.put('/users/:id', async (req, res) => {
     const id = req.body.id
     delete req.body.id
-    mysql.update(id, req.body)
-        .then(() => res.sendStatus(204))
-        .catch(e => {
-            if(e as t.Error === 'QUERY_ERR')
-                res.sendStatus(400)
-            else
-                res.sendStatus(500)
-        })
+    let dupe = false
+    try{
+        const emails = await mysql.selectAllBut(id, 'email')
+        for(let obj of emails){
+            if(obj.email as string === req.body.email as string){
+                    dupe = true
+                    break
+            }
+        }
+        if(!dupe){
+            await mysql.update(id, req.body)
+            res.sendStatus(204)
+        }
+        else
+            res.status(200).send({
+                error: {
+                    code: 1,
+                    message: 'E-mail is duplicate.'
+                }
+            })
+    }
+    catch(e){
+        if(e as t.Error === 'QUERY_ERR')
+            res.sendStatus(400)
+        else
+            res.sendStatus(500)
+    }
 })
 
 app.delete('/users', (req, res) => {
