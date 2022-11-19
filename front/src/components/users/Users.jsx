@@ -33,7 +33,7 @@ export default function Users(){
 
     /**
      * Gets the users from db and updates the state
-     * @returns {Promise}
+     * @returns {Promise<void>}
      */
     async function fetchUsers(){
         try{
@@ -43,13 +43,13 @@ export default function Users(){
                 setUsers(data)
                 setPlaceholder(false)            
             }
-            return new Promise((resolve, reject) => resolve())
+            return new Promise((resolve, _reject) => resolve())
         }
         catch(e){
             // Render placeholder
             setUsers(blankUserTable)
             setPlaceholder(true)
-            return new Promise((resolve, reject) => reject(e))
+            return new Promise((_resolve, reject) => reject(e))
         }
     }
 
@@ -61,7 +61,7 @@ export default function Users(){
                     id: key
                 }
             })
-            if(resp.status === 200){
+            if(resp.status >= 200 && resp.status < 300){
                 renderConfMsg('delete')
                 fetchUsers().catch(console.error)
             }
@@ -77,11 +77,11 @@ export default function Users(){
      * @param {String} operation Defines which message to show. Shall be 'post', 'put' or 'delete'
      * @param {Boolean} error If set to true, displays an error message instead
      */
-    function renderConfMsg(operation, error = false){
+    function renderConfMsg(operation, serverError = false, responseMsg = {}){
         // Callback to remove the message component from this component's state
         const removeComponentCB = () => setConfMessage(null)
         let title, msg, color
-        if(error){
+        if(serverError || Object.hasOwn(responseMsg, 'error')){
             title = 'Erro!'
             color = 'danger'
         }
@@ -90,19 +90,23 @@ export default function Users(){
             color = 'success'
         }
         if(operation === 'post'){
-            if(error)
+            if(serverError)
                 msg = 'Não foi possível gravar os dados. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.'
+            else if(Object.hasOwn(responseMsg, 'error') && responseMsg.error.code === 1)
+                msg = 'E-mail já cadastrado. Utilize outro.'
             else
                 msg = 'Os dados foram gravados com sucesso!'
         }
         else if(operation === 'put'){
-            if(error)
+            if(serverError)
                 msg = 'Não foi possível atualizar os dados. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.'
+            else if(Object.hasOwn(responseMsg, 'error') && responseMsg.error.code === 1)
+                msg = 'E-mail já cadastrado. Utilize outro.'
             else
                 msg = 'Usuário atualizado com sucesso!'
         }
         else{
-            if(error)
+            if(serverError)
                 msg = 'Não foi possível deletar o usuário. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.'
             else
                 msg = 'Usuário deletado!'
@@ -122,8 +126,8 @@ export default function Users(){
         >
             <Registration 
                 user = {user}
-                onSend = {(method, error) => {
-                    renderConfMsg(method, error)
+                onSend = {(method, error, responseMsg) => {
+                    renderConfMsg(method, error, responseMsg)
                     fetchUsers().catch(console.error)
                 }}
             />

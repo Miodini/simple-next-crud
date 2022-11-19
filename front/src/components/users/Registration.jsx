@@ -32,16 +32,19 @@ export default function Registration(props){
     }
 
     async function save(event){
-        event.preventDefault()
+        if(event)
+            event.preventDefault()
         setFormClass('was-validated')
         // If there are no empty fields, save them
         if(!Object.values(user).some(value => value === '')){
             const method = user.id ? 'put' : 'post'    // Puts if id is defined (editing user), post otherwise
             const url = user.id ? baseURL + '/' + user.id : baseURL
             try{
-                await axios[method](url, user)
-                clear()
-                props.onSend(method, false)
+                const resp = await axios[method](url, user)
+                // Only clear form on success
+                if(resp.status === 201 || resp.status === 204)
+                    clear()
+                props.onSend(method, false, resp.data)
             }
             catch(e){
                 props.onSend(method, true)
@@ -55,9 +58,17 @@ export default function Registration(props){
         setUser(newUserData)
     }
 
+    function handleKeyPress(event){
+        if(event.key === 'Enter')
+            save()
+    }
+
     return(
         <div className='container-fluid mb-0'>
-            <form className={formClass} noValidate>
+            <form className={formClass}
+                noValidate
+                onKeyUp = {handleKeyPress}
+            >
                 <div className='row'>
                     <div className='col-12 col-md-6 mb-2'>
                         <Name
