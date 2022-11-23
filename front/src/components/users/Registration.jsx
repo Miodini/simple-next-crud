@@ -41,10 +41,15 @@ export default function Registration(props){
             const url = user.id ? baseURL + '/' + user.id : baseURL
             try{
                 const resp = await axios[method](url, user)
-                // Only clear form on success
-                if(resp.status === 201 || resp.status === 204)
+                // Success
+                if(resp.status === 201 || resp.status === 204){
+                    props.onSend(method, false, resp.data)
                     clear()
-                props.onSend(method, false, resp.data)
+                }
+                // Error
+                else{
+                    props.onSend(method, true, resp.data)
+                }
             }
             catch(e){
                 props.onSend(method, true)
@@ -103,7 +108,7 @@ export default function Registration(props){
                 </div>
                 <div className='row'>
                     <div className="col">
-                        <button className='btn btn-primary float-end' onClick={save}>
+                        <button className='btn btn-primary float-end' onClick={e => save(e)}>
                             Enviar
                         </button>
                         <button className='btn btn-secondary float-end mx-1' onClick={clear}>

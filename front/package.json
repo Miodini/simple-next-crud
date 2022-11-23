@@ -2,7 +2,7 @@
   "name": "front",
   "version": "1.0.0",
   "private": true,
-  "homepage": ".",
+  "homepage": "https://miodini.github.io/projects/crud/",
   "dependencies": {
     "@popperjs/core": "^2.11.6",
     "@testing-library/jest-dom": "^5.16.5",

@@ -76,12 +76,13 @@ export default function Users(){
     /** Shows and animates the confirmation message after a put/post
      * @param {String} operation Defines which message to show. Shall be 'post', 'put' or 'delete'
      * @param {Boolean} error If set to true, displays an error message instead
+     * @param {Object} responseMsg Response body of the request
      */
-    function renderConfMsg(operation, serverError = false, responseMsg = {}){
+    function renderConfMsg(operation, error = false, responseMsg = {}){
         // Callback to remove the message component from this component's state
         const removeComponentCB = () => setConfMessage(null)
         let title, msg, color
-        if(serverError || Object.hasOwn(responseMsg, 'error')){
+        if(error){
             title = 'Erro!'
             color = 'danger'
         }
@@ -90,23 +91,35 @@ export default function Users(){
             color = 'success'
         }
         if(operation === 'post'){
-            if(serverError)
-                msg = 'Não foi possível gravar os dados. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.'
-            else if(Object.hasOwn(responseMsg, 'error') && responseMsg.error.code === 1)
-                msg = 'E-mail já cadastrado. Utilize outro.'
+            if(error){
+                if(Object.hasOwn(responseMsg, 'error')){
+                    if(responseMsg.error.code === 1)
+                        msg = 'E-mail já cadastrado. Utilize outro.'
+                    else if(responseMsg.error.code === 2)
+                        msg = 'E-mail inválido'
+                }
+                else
+                    msg = 'Não foi possível gravar os dados. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.'
+            }
             else
                 msg = 'Os dados foram gravados com sucesso!'
         }
         else if(operation === 'put'){
-            if(serverError)
-                msg = 'Não foi possível atualizar os dados. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.'
-            else if(Object.hasOwn(responseMsg, 'error') && responseMsg.error.code === 1)
-                msg = 'E-mail já cadastrado. Utilize outro.'
+            if(error){
+                if(Object.hasOwn(responseMsg, 'error')){
+                    if(responseMsg.error.code === 1)
+                        msg = 'E-mail já cadastrado. Utilize outro.'
+                    else if(responseMsg.error.code === 2)
+                        msg = 'E-mail inválido.'
+                }
+                else
+                    msg = 'Não foi possível atualizar os dados. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.'
+            }
             else
                 msg = 'Usuário atualizado com sucesso!'
         }
         else{
-            if(serverError)
+            if(error)
                 msg = 'Não foi possível deletar o usuário. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.'
             else
                 msg = 'Usuário deletado!'
