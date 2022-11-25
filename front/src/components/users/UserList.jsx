@@ -36,7 +36,8 @@ export default function UserList(props){
                 else return null
             }
             return(
-                <tr key={user.id}>
+                // When rendering a placeholder, there's only one tr and no user, so setting it to 1 should be fine
+                <tr key={user.id || 1}>
                     <td>{user.name}</td>
                     <td>{user.email}</td>
                     <td>{fullGender}</td>

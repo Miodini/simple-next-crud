@@ -92,12 +92,10 @@ export default function Users(){
         }
         if(operation === 'post'){
             if(error){
-                if(Object.hasOwn(responseMsg, 'error')){
-                    if(responseMsg.error.code === 1)
-                        msg = 'E-mail já cadastrado. Utilize outro.'
-                    else if(responseMsg.error.code === 2)
-                        msg = 'E-mail inválido'
-                }
+                if(responseMsg.error?.code === 1)
+                    msg = 'E-mail já cadastrado. Utilize outro.'
+                else if(responseMsg.error?.code === 2)
+                    msg = 'E-mail inválido'
                 else
                     msg = 'Não foi possível gravar os dados. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.'
             }
@@ -106,12 +104,10 @@ export default function Users(){
         }
         else if(operation === 'put'){
             if(error){
-                if(Object.hasOwn(responseMsg, 'error')){
-                    if(responseMsg.error.code === 1)
-                        msg = 'E-mail já cadastrado. Utilize outro.'
-                    else if(responseMsg.error.code === 2)
-                        msg = 'E-mail inválido.'
-                }
+                if(responseMsg.error?.code === 1)
+                    msg = 'E-mail já cadastrado. Utilize outro.'
+                else if(responseMsg.error?.code === 2)
+                    msg = 'E-mail inválido.'
                 else
                     msg = 'Não foi possível atualizar os dados. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.'
             }
