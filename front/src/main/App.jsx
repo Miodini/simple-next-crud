@@ -10,13 +10,16 @@ import 'font-awesome/css/font-awesome.min.css'
 
 export default function Page(){
     return(
-        <BrowserRouter>
+        <BrowserRouter
+            // basename='projects/crud'
+            // The above line needs to be uncommented to build correctly for my github pages
+        >
             <Logo/>
             <Side/>
             <Routes>
                 <Route path='/home' element={<Home/>} />
                 <Route path='/users' element={<Users/>} />
-                <Route path='/' element={<Navigate to='/home'/>} />
+                <Route path='/*' element={<Navigate to='/home'/>} />
             </Routes>
         </BrowserRouter>
     )
