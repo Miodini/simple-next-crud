@@ -24,7 +24,6 @@ const blankAlertSettings: AlertSettings = {
   visible: false
 }
 const ALERT_TIMEOUT = 10000
-const url = 'http://localhost:3001/users'
 
 export default function Users() {
   const [users, setUsers] = useState<User[]>([])     // For <UserList>

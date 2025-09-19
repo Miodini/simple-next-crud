@@ -14,9 +14,6 @@ import Phone from './Phone'
 import Api from '@/lib/api'
 import type { User } from './types'
 
-type ApiResponse = {
-    error?: { code: number }
-}
 const blankUser: User = {
     id: 0,
     name: '',
@@ -24,7 +21,6 @@ const blankUser: User = {
     gender: '',
     phone: '',
 }
-const baseURL = 'http://localhost:3001/users'
 
 export default function Registration({
     user, setUser, onSend
