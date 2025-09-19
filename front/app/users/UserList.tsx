@@ -1,21 +1,25 @@
-import type { UserListPropTypes } from "./types"
 import Table from 'react-bootstrap/Table'
+import { FormattedMessage, useIntl } from 'react-intl'
+import type { UserListPropTypes } from "./types"
 
 export default function UserList ({
     isPlaceholder, users, handleDelete, handleEdit
-}: UserListPropTypes) {
+}: UserListPropTypes
+) {
+    const intl = useIntl()
+
     function renderTable () {
         return users.map(user => {
             let fullGender
             switch(user.gender){
                 case 'M':
-                    fullGender = 'Masculino'
+                    fullGender = intl.formatMessage({ id: 'users.field.male' })
                     break
                 case 'F':
-                    fullGender = 'Feminino'
+                    fullGender = intl.formatMessage({ id: 'users.field.female' })
                     break
                 case 'O':
-                    fullGender = 'Outro'
+                    fullGender = intl.formatMessage({ id: 'users.field.other' })
                     break
                 default:
                     fullGender = '-'
@@ -55,10 +59,10 @@ export default function UserList ({
         <Table striped>
             <thead>
                 <tr>
-                    <th>Nome</th>
-                    <th>E-mail</th>
-                    <th>Sexo</th>
-                    <th>Telefone</th>
+                    <th><FormattedMessage id="users.field.name"/></th>
+                    <th><FormattedMessage id="users.field.mail"/></th>
+                    <th><FormattedMessage id="users.field.gender"/></th>
+                    <th><FormattedMessage id="users.field.phone"/></th>
                     <th>{/* Edit */}</th>
                     <th>{/* Delete */}</th>
                 </tr>

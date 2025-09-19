@@ -1,5 +1,6 @@
 
 import Form from "react-bootstrap/Form"
+import { FormattedMessage, useIntl } from "react-intl"
 import type { InputPropTypes } from "./types"
 
 /** Renders label and input for phone entry
@@ -10,6 +11,8 @@ import type { InputPropTypes } from "./types"
 export default function Phone ({
     inputId, value, onChange
 }: InputPropTypes) {
+    const intl = useIntl()
+
     const isSpecialKey = (key: string) => {
         // Is there a better way?
         return key === 'Backspace' || key === 'Delete' || key === 'ArrowLeft' || key === 'ArrowRight' || key === 'Home' || key === 'End'
@@ -24,7 +27,9 @@ export default function Phone ({
     
     return (
         <Form.Group>
-            <Form.Label htmlFor={inputId}>Telefone</Form.Label>
+            <Form.Label htmlFor={inputId}>
+                <FormattedMessage id="users.field.phone" />
+            </Form.Label>
             <Form.Control
                 value={value}
                 id={inputId}
@@ -33,10 +38,12 @@ export default function Phone ({
                 name='phone'
                 maxLength={11}
                 onKeyDown={enforceNumber}
-                placeholder='Apenas números'
+                placeholder={intl.formatMessage({ id: 'users.field.phonePlaceholder' })}
                 required
             />
-            <Form.Control.Feedback type="invalid">Preencha este campo.</Form.Control.Feedback>
+           <Form.Control.Feedback type="invalid">
+                <FormattedMessage id="users.field.mandatory" />
+            </Form.Control.Feedback>
         </Form.Group>
     )
 }

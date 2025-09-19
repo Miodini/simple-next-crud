@@ -1,4 +1,5 @@
 import Form from "react-bootstrap/Form"
+import { FormattedMessage } from "react-intl"
 import React from 'react'
 
 /** Renders label and input for gender entry
@@ -13,7 +14,9 @@ export default function Gender ({
 >) {
     return(
         <Form.Group>
-            <Form.Label htmlFor={inputId}>Sexo</Form.Label>
+            <Form.Label htmlFor={inputId}>
+                <FormattedMessage id="users.field.gender" />
+            </Form.Label>
             <Form.Select 
                 value={value}
                 id={inputId}
@@ -22,11 +25,13 @@ export default function Gender ({
                 required
             >
                 <option value=''></option>,
-                <option value='M'>Masculino</option>,
-                <option value='F'>Feminino</option>,
-                <option value='O'>Outro</option>
+                <option value='M'><FormattedMessage id="users.field.male"/></option>,
+                <option value='F'><FormattedMessage id="users.field.female"/></option>,
+                <option value='O'><FormattedMessage id="users.field.other"/></option>
             </Form.Select>
-            <Form.Control.Feedback type="invalid">Preencha este campo.</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">
+                <FormattedMessage id="users.field.mandatory" />
+            </Form.Control.Feedback>
         </Form.Group>
     )
 }

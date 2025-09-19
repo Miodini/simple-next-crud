@@ -10,6 +10,7 @@ import UserList from './UserList'
 import ConfMsg from './ConfMsg'
 
 import type { User } from './types'
+import type { MessageKeys } from '@/lib/i18n'
 
 // Placeholder for the user list table
 const blankUserTable: User[] = [{
@@ -84,44 +85,45 @@ export default function Users(){
     function renderConfMsg(operation: string, error: boolean = false, errorCode?: number){
         // Callback to remove the message component from this component's state
         const removeComponentCB = () => setConfMessage(null)
-        let title, msg, color
+        let title: MessageKeys, msg: MessageKeys, color: 'success' | 'danger'
+
         if(error){
-            title = 'Erro!'
+            title = 'users.error.title'
             color = 'danger'
         }
         else{
-            title = 'Sucesso!'
+            title = 'users.success.title'
             color = 'success'
         }
         if(operation === 'post'){
             if(error){
                 if(errorCode === 1)
-                    msg = 'E-mail já cadastrado. Utilize outro.'
+                    msg = 'users.post.errorMessage1'
                 else if(errorCode === 2)
-                    msg = 'E-mail inválido'
+                    msg = 'users.post.errorMessage2'
                 else
-                    msg = 'Não foi possível gravar os dados. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.'
+                    msg = 'users.post.errorMessage3'
             }
             else
-                msg = 'Os dados foram gravados com sucesso!'
+                msg = 'users.post.successMessage'
         }
         else if(operation === 'put'){
             if(error){
                 if(errorCode === 1)
-                    msg = 'E-mail já cadastrado. Utilize outro.'
+                    msg = 'users.put.errorMessage1'
                 else if(errorCode === 2)
-                    msg = 'E-mail inválido.'
+                    msg = 'users.put.errorMessage2'
                 else
-                    msg = 'Não foi possível atualizar os dados. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.'
+                    msg = 'users.put.errorMessage3'
             }
             else
-                msg = 'Usuário atualizado com sucesso!'
+                msg = 'users.put.successMessage'
         }
         else{
             if(error)
-                msg = 'Não foi possível deletar o usuário. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.'
+                msg = 'users.delete.errorMessage1'
             else
-                msg = 'Usuário deletado!'
+                msg = 'users.delete.successMessage'
         }
 
         setConfMessage(
@@ -138,8 +140,8 @@ export default function Users(){
         <>
             <Header
                 icon={faUser}
-                title='Cadastro'
-                subtitle='Cadastre as pessoas.'
+                title='users.header.title'
+                subtitle='users.header.content'
             />
             <Main>
                 <Registration 

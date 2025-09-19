@@ -1,0 +1,37 @@
+import type { MessageKeys } from "./en"
+
+const messages: Record<MessageKeys, string> = {
+    'nav.home': 'Início',
+    'nav.users': 'Usuários',
+    'home.header.title': 'Início',
+    'home.header.content': 'Projeto CRUD desenvolvido em Next.js.',
+    'home.main.title': 'Bem vindo!',
+    'home.main.content': 'Este site é uma simples demonstração de um projeto CRUD feito em Next.js. Caso esteja vendo esse site a partir do Github Pages, note que não haverá conexão com servidor para o cadastro/recuperação de usuários. Clone e hospede a aplicação disponível aqui localmente.',
+    'users.header.title': 'Cadastro',
+    'users.header.content': 'Cadastre as pessoas.',
+    'users.field.name': 'Nome',
+    'users.field.mail': 'E-mail',
+    'users.field.gender': 'Sexo',
+    'users.field.phone': 'Telefone',
+    'users.field.mandatory': 'Preencha este campo.',
+    'users.field.phonePlaceholder': 'Apenas números',
+    'users.field.male': 'Masculino',
+    'users.field.female': 'Feminino',
+    'users.field.other': 'Outro',
+    'users.button.clear': 'Limpar',
+    'users.button.submit': 'Enviar',
+    'users.error.title': 'Erro!',
+    'users.success.title': 'Sucesso!',
+    'users.post.errorMessage1': 'E-mail já cadastrado. Utilize outro.',
+    'users.post.errorMessage2': 'E-mail inválido.',
+    'users.post.errorMessage3': 'Não foi possível gravar os dados. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.',
+    'users.post.successMessage': 'Os dados foram gravados com sucesso!',
+    'users.put.errorMessage1': 'E-mail já cadastrado. Utilize outro.',
+    'users.put.errorMessage2': 'E-mail inválido.',
+    'users.put.errorMessage3': 'Não foi possível atualizar os dados. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.',
+    'users.put.successMessage': 'Usuário atualizado com sucesso!',
+    'users.delete.errorMessage1': 'Não foi possível deletar o usuário. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.',
+    'users.delete.successMessage': 'Usuário deletado!',
+} as const
+
+export default messages

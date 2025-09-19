@@ -1,4 +1,5 @@
 import Form from "react-bootstrap/Form"
+import { FormattedMessage } from "react-intl"
 import type { InputPropTypes } from "./types"
 /** Renders label and input for email entry
  * @props value - The value to be displayed
@@ -10,7 +11,9 @@ export default function Email ({
 }: InputPropTypes) {
     return(
         <Form.Group>
-            <Form.Label htmlFor={inputId}>E-mail</Form.Label>
+            <Form.Label htmlFor={inputId}>
+                <FormattedMessage id="users.field.mail" />
+            </Form.Label>
             <Form.Control 
                 value={value}
                 id={inputId}
@@ -19,7 +22,9 @@ export default function Email ({
                 name='email'
                 required
             />
-            <Form.Control.Feedback type="invalid">Preencha este campo.</Form.Control.Feedback>
+            <Form.Control.Feedback type="invalid">
+                <FormattedMessage id="users.field.mandatory" />
+            </Form.Control.Feedback>
         </Form.Group>
     )
 }

@@ -1,10 +1,13 @@
 'use client'
+import dynamic from "next/dynamic"
 import styled from "styled-components"
 import { ThemeProvider, type DefaultTheme } from "styled-components"
 
 import Logo from "./Logo"
 import Side from "./Side"
 import GlobalStyle from "./GlobalStyle"
+
+const ClientIntlProvider = dynamic(() => import('@/lib/i18n/ClientIntlProvider'), { ssr: false })
 // Heights for mobile layout
 const menuHeight = '100px'
 const logoHeight = '75px'
@@ -43,13 +46,15 @@ export default function Root({
   children: React.ReactNode
 }>) {
   return (
-    <ThemeProvider theme={theme}>
-      <RootDiv>
-        <GlobalStyle />
-        <Logo />
-        <Side />
-        {children}
-     </RootDiv>
-    </ThemeProvider>
+    <ClientIntlProvider>
+      <ThemeProvider theme={theme}>
+        <RootDiv>
+          <GlobalStyle />
+          <Logo />
+          <Side />
+          {children}
+      </RootDiv>
+      </ThemeProvider>
+    </ClientIntlProvider>
   )
 }

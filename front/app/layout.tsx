@@ -1,5 +1,5 @@
-import { Montserrat } from 'next/font/google'
 import { Metadata } from 'next'
+import { Montserrat } from 'next/font/google'
 import { config as faConfig } from "@fortawesome/fontawesome-svg-core"
 import '@fortawesome/fontawesome-svg-core/styles.css' // Needed to prevent fa icon huge on load bug
 import 'bootstrap/dist/css/bootstrap.css'
@@ -21,11 +21,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={montserrat.className}>
       <body>
-        <StyledComponentsRegistry>
-          <Root>
-            {children}
-          </Root>
-        </StyledComponentsRegistry>
+          <StyledComponentsRegistry>
+            <Root>
+              {children}
+            </Root>
+          </StyledComponentsRegistry>
       </body>
     </html>
   )

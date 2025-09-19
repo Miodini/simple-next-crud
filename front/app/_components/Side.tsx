@@ -1,6 +1,7 @@
 'use client'
 import NextLink from 'next/link'
 import styled from 'styled-components'
+import { FormattedMessage } from 'react-intl'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
 import { faUsers } from '@fortawesome/free-solid-svg-icons/faUsers'
@@ -62,11 +63,11 @@ export default function Side () {
             <Nav>
                 <Link href='/home'>
                     <FontAwesomeIcon icon={faHome} size="xs" />
-                    Início
+                    <FormattedMessage id="nav.home"/>
                 </Link>
                 <Link href='/users'>
                     <FontAwesomeIcon icon={faUsers} size="xs" />
-                    Usuários
+                    <FormattedMessage id="nav.users"/>
                 </Link>
             </Nav>
         </Aside>

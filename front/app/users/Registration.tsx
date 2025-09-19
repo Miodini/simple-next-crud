@@ -4,6 +4,8 @@ import Button from 'react-bootstrap/Button'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import axios from 'axios'
+import { FormattedMessage } from 'react-intl'
+
 import Name from './Name'
 import Email from './Email'
 import Gender from './Gender'
@@ -121,10 +123,10 @@ export default function Registration({
                 <Row>
                     <Col>
                         <Button variant="primary" className='float-end' onClick={save}>
-                            Enviar
+                            <FormattedMessage id="users.button.submit" />
                         </Button>
                         <Button variant="secondary" className='float-end mx-1' onClick={clear}>
-                            Limpar
+                            <FormattedMessage id="users.button.clear" />
                         </Button>
                     </Col>
                 </Row>
