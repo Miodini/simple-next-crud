@@ -1,10 +1,10 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 
-import Registration from './Registration'
-import UserList from './UserList'
-import ConfMsg from './ConfMsg'
-import Confirmation from './Confirmation'
+import Registration from './_components/Registration'
+import UserList from './_components/UserList'
+import ConfMsg from './_components/ConfMsg'
+import Confirmation from './_components/Confirmation'
 import Api from '@/lib/api'
 
 import type { AlertSettings, User } from './types'
