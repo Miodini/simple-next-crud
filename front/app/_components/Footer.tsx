@@ -24,7 +24,7 @@ const BuildDateSpan = styled.span`
 export default function Footer() {
   return (
     <FooterElement>
-      <A href="https://github.com/Miodini/projetos-curso-web/tree/main/crud-react">
+      <A href="https://github.com/Miodini/simple-next-crud">
         <Image src={img} alt="GitHub Logo" width={25} height={25} />
       </A>
       <BuildDateSpan>
