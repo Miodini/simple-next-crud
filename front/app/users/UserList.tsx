@@ -1,5 +1,9 @@
+import Button from 'react-bootstrap/Button'
 import Table from 'react-bootstrap/Table'
 import { FormattedMessage, useIntl } from 'react-intl'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPencil } from '@fortawesome/free-solid-svg-icons/faPencil'
+import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
 import type { UserListPropTypes } from "./types"
 
 export default function UserList ({
@@ -29,14 +33,14 @@ export default function UserList ({
                     return(    
                         <>
                             <td>
-                                <button className='btn btn-primary' onClick = {() => handleEdit(user)}>
-                                    <i className="fa fa-pencil"></i>
-                                </button>
+                                <Button variant="primary" onClick = {() => handleEdit(user)}>
+                                    <FontAwesomeIcon icon={faPencil} />
+                                </Button>
                             </td>
                             <td>
-                                <button className='btn btn-danger' onClick = {() => handleDelete(user.id)}>
-                                    <i className="fa fa-trash"></i>
-                                </button>
+                                <Button variant="danger" onClick = {() => handleDelete(user.id)}>
+                                    <FontAwesomeIcon icon={faTrash}/>
+                                </Button>
                             </td>
                         </>
                     )

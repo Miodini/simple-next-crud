@@ -1,8 +1,10 @@
 'use client'
 import { useState } from 'react'
 import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/Row'
+import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
+import Form from 'react-bootstrap/Form'
+import Row from 'react-bootstrap/Row'
 import axios from 'axios'
 import { FormattedMessage } from 'react-intl'
 
@@ -30,21 +32,21 @@ export default function Registration({
     user: User, setUser: React.Dispatch<User>, onSend: (method: 'put' | 'post', error?: boolean, errorCode?: number) => void
 }>) {
     // For bootstrap form verification
-    const [formClass, setFormClass] = useState<string>('')
+    const [isValidated, setIsValidated] = useState<boolean>(false)
 
     function clear(event?: React.MouseEvent) {
         if(event) {
             event.preventDefault()
         }
         setUser({...blankUser})
-        setFormClass('')
+        setIsValidated(false)
     }
 
     async function save(event?: React.MouseEvent) {
         if(event) {
             event.preventDefault()
         }
-        setFormClass('was-validated')
+        setIsValidated(true)
         // If there are no empty fields, save them
         if(!Object.values(user).some(value => value === '')){
             const method = user.id ? 'put' : 'post'    // Puts if id is defined (editing user), post otherwise
@@ -82,9 +84,9 @@ export default function Registration({
     }
 
     return(
-        <div className='container-fluid mb-0'>
-            <form
-                className={formClass}
+        <Container fluid className='mb-0'>
+            <Form
+                validated={isValidated}
                 noValidate
                 onKeyUp={handleKeyPress}
             >
@@ -130,8 +132,8 @@ export default function Registration({
                         </Button>
                     </Col>
                 </Row>
-            </form>
-        </div>
+            </Form>
+        </Container>
     )
 }
 
