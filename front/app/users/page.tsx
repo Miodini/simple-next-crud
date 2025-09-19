@@ -35,7 +35,7 @@ export default function Users() {
   const timeoutRef = useRef<number>(null)
   
   useEffect(() => {
-    fetchUsers().catch(console.error)
+    fetchUsers()
   }, [])
 
   /**
@@ -153,7 +153,7 @@ export default function Users() {
         setUser={setUser}
         onSend={(method, error, errorCode) => {
           configureAlert(method, error, errorCode)
-          fetchUsers().catch(console.error)
+          fetchUsers()
         }}
       />
       <ConfMsg

@@ -48,7 +48,6 @@ export default function Registration({
             const method = user.id > 0 ? 'put' : 'post'    // Puts if id is defined (editing user), post otherwise
 
             try {
-                console.log(method)
                 const resp = await (method === 'put' ? Api.put(user) : Api.post(user))
                 // Success
                 if (resp.status === 201 || resp.status === 204) {
