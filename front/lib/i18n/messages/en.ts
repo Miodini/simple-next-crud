@@ -4,7 +4,7 @@ const messages = {
     'home.header.title': 'Home',
     'home.header.content': 'CRUD project developed in Next.js.',
     'home.main.title': 'Welcome!',
-    'home.main.content': 'This site is a simple demonstration of a CRUD project made in Next.js. If you are viewing this site from Github Pages, note that there will be no server connection for user registration/retrieval. Clone and host the application available here locally.',
+    'home.main.content': 'This site is a simple demonstration of a CRUD project made in Next.js. If you are viewing this site from Github Pages, note that there will be no server connection for user registration/retrieval. Local Storage will be used instead. Check the GitHub repo for more details',
     'users.header.title': 'Registration',
     'users.header.content': 'Register people.',
     'users.field.name': 'Name',

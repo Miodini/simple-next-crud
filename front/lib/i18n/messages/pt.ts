@@ -6,7 +6,7 @@ const messages: Record<MessageKeys, string> = {
     'home.header.title': 'Início',
     'home.header.content': 'Projeto CRUD desenvolvido em Next.js.',
     'home.main.title': 'Bem vindo!',
-    'home.main.content': 'Este site é uma simples demonstração de um projeto CRUD feito em Next.js. Caso esteja vendo esse site a partir do Github Pages, note que não haverá conexão com servidor para o cadastro/recuperação de usuários. Clone e hospede a aplicação disponível aqui localmente.',
+    'home.main.content': 'Este site é uma simples demonstração de um projeto CRUD feito em Next.js. Caso esteja vendo esse site a partir do Github Pages, note que não haverá conexão com servidor para o cadastro/recuperação de usuários. Local Storage será usado no lugar. Para mais detalhes, cheque o repositório no GitHub.',
     'users.header.title': 'Cadastro',
     'users.header.content': 'Cadastre as pessoas.',
     'users.field.name': 'Nome',

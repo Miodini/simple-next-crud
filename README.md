@@ -1,7 +1,7 @@
 # SIMPLE NEXT CRUD
 
 ## Introduction
-A simple create, read, update, delete website made in Next.js. Uses TypeScript, ExpresJS and MySQL on backend.
+A simple create, read, update, delete website made in Next.js. Uses TypeScript, ExpressJS and MySQL on backend.
 🚧Under refurbishment🚧
 
 ## How to install
