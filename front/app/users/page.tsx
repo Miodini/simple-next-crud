@@ -1,10 +1,10 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
-import axios from 'axios'
 
 import Registration from './Registration'
 import UserList from './UserList'
 import ConfMsg from './ConfMsg'
+import Api from '@/lib/api'
 
 import type { AlertSettings, User } from './types'
 import type { MessageKeys } from '@/lib/i18n'
@@ -39,45 +39,44 @@ export default function Users() {
   /**
    * Gets the users from db and updates the state
    */
-  async function fetchUsers(): Promise<void> {
+  async function fetchUsers() {
     try {
       // Render users if response is not empty
-      const {data} = await axios(url)
+      const { data } = await Api.get()
       
-      if (data.length > 0) {
+      if (Array.isArray(data)) {
         setUsers(data)
+      } else {
+        setUsers([])
       }
-      return new Promise<void>((resolve) => resolve())
     }
-    catch(e) {
-      // Render placeholder
+    catch {
       setUsers([])
-      return new Promise<void>((_resolve, reject) => reject(e))
     }
   }
 
   // TODO: deleting multiple users without refreshing doesn't update the table correctly
   async function deleteUser(id: number) {
     try {
-      const resp = await axios.delete(url, { data: { id } })
+      const resp = await Api.del(id)
 
       if (resp.status >= 200 && resp.status < 300) {
-        renderConfMsg('delete')
-        fetchUsers().catch(console.error)
+        configureAlert('delete')
+        fetchUsers()
       } else {
-        renderConfMsg('delete', true)
+        configureAlert('delete', true)
       }
     } catch {
-      renderConfMsg('delete', true)
+      configureAlert('delete', true)
     }
   }
 
-  /** Shows and animates the confirmation message after a put/post
-   * @param operation Defines which message to show. Shall be 'post', 'put' or 'delete'
+  /** Shows and animates the confirmation message after a put/post/delete
+   * @param method Defines which message to show.
    * @param error If set to true, displays an error message instead
    * @param errorCode Error code
    */
-  function renderConfMsg(operation: string, error: boolean = false, errorCode?: number){
+  function configureAlert(method: 'put' | 'post' | 'delete', error: boolean = false, errorCode?: number) {
     // Callback to remove the message component from this component's state
     let title: MessageKeys, message: MessageKeys, variant: 'success' | 'danger'
 
@@ -89,7 +88,7 @@ export default function Users() {
       variant = 'success'
     }
 
-    if (operation === 'post') {
+    if (method === 'post') {
       if (error) {
         if (errorCode === 1) {
           message = 'users.post.errorMessage1'
@@ -102,7 +101,7 @@ export default function Users() {
         message = 'users.post.successMessage'
       }
     }
-    else if(operation === 'put') {
+    else if(method === 'put') {
       if (error) {
         if (errorCode === 1) {
           message = 'users.put.errorMessage1'
@@ -145,7 +144,7 @@ export default function Users() {
           user={user}
           setUser={setUser}
           onSend={(method, error, errorCode) => {
-            renderConfMsg(method, error, errorCode)
+            configureAlert(method, error, errorCode)
             fetchUsers().catch(console.error)
           }}
         />

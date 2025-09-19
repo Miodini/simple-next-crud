@@ -5,13 +5,13 @@ import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
-import axios from 'axios'
 import { FormattedMessage } from 'react-intl'
 
 import Name from './Name'
 import Email from './Email'
 import Gender from './Gender'
 import Phone from './Phone'
+import Api from '@/lib/api'
 import type { User } from './types'
 
 type ApiResponse = {
@@ -49,19 +49,18 @@ export default function Registration({
         setIsValidated(true)
         // If there are no empty fields, save them
         if(!Object.values(user).some(value => value === '')){
-            const method = user.id ? 'put' : 'post'    // Puts if id is defined (editing user), post otherwise
-            const url = user.id ? baseURL + '/' + user.id : baseURL
+            const method = user.id > 0 ? 'put' : 'post'    // Puts if id is defined (editing user), post otherwise
 
             try {
-                const resp = await axios[method]<ApiResponse>(url, user)
+                console.log(method)
+                const resp = await (method === 'put' ? Api.put(user) : Api.post(user))
                 // Success
-                if(resp.status === 201 || resp.status === 204){
+                if (resp.status === 201 || resp.status === 204) {
                     onSend(method, false)
                     clear()
-                }
-                // Error
-                else{
-                    onSend(method, true, resp.data.error?.code)
+                } else if (resp.data && 'error' in resp.data) {
+                    // Error
+                    onSend(method, true, resp.data.error.code)
                 }
             }
             catch {
