@@ -20,6 +20,8 @@ const messages: Record<MessageKeys, string> = {
     'users.field.other': 'Outro',
     'users.button.clear': 'Limpar',
     'users.button.submit': 'Enviar',
+    'users.button.edit': 'Editar',
+    'users.button.delete': 'Deletar',
     'users.error.title': 'Erro!',
     'users.success.title': 'Sucesso!',
     'users.post.errorMessage1': 'E-mail já cadastrado. Utilize outro.',

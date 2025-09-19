@@ -13,13 +13,6 @@ export type User = {
     gender: string
 }
 
-export type UserListPropTypes = Readonly<{
-    isPlaceholder: boolean,
-    users: User[],
-    handleEdit: (user: User) => void,
-    handleDelete: (userId: number) => void
-}>
-
 export type AlertSettings = {
     title: MessageKeys | '',
     message: MessageKeys | '',

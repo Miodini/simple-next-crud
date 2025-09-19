@@ -18,6 +18,8 @@ const messages = {
     'users.field.other': 'Other',
     'users.button.clear': 'Clear',
     'users.button.submit': 'Submit',
+    'users.button.edit': 'Edit',
+    'users.button.delete': 'Delete',
     'users.error.title': 'Error!',
     'users.success.title': 'Success!',
     'users.post.errorMessage1': 'E-mail already registered. Use another.',

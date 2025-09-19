@@ -9,15 +9,6 @@ import ConfMsg from './ConfMsg'
 import type { AlertSettings, User } from './types'
 import type { MessageKeys } from '@/lib/i18n'
 
-// Placeholder for the user list table
-const blankUserTable: User[] = [{
-  id: 0,
-  name: '-',
-  email: '-',
-  gender: '-',
-  phone: '-'
-}]
-
 // Initial state for Registration component
 const blankUserForm: User = {
   id: 0,
@@ -36,9 +27,8 @@ const ALERT_TIMEOUT = 10000
 const url = 'http://localhost:3001/users'
 
 export default function Users() {
-  const [users, setUsers] = useState<User[]>(blankUserTable)     // For <UserList>
+  const [users, setUsers] = useState<User[]>([])     // For <UserList>
   const [user, setUser] = useState<User>(blankUserForm)        // For <Registration>
-  const [isPlaceholder, setPlaceholder] = useState<boolean>(true)
   const [alertSettings, setAlertSettings] = useState<AlertSettings>(blankAlertSettings)
   const timeoutRef = useRef<number>(null)
   
@@ -56,14 +46,12 @@ export default function Users() {
       
       if (data.length > 0) {
         setUsers(data)
-        setPlaceholder(false)            
       }
       return new Promise<void>((resolve) => resolve())
     }
     catch(e) {
       // Render placeholder
-      setUsers(blankUserTable)
-      setPlaceholder(true)
+      setUsers([])
       return new Promise<void>((_resolve, reject) => reject(e))
     }
   }
@@ -168,9 +156,8 @@ export default function Users() {
           show={alertSettings.visible}
         />
         <hr/>
-        <UserList 
+        <UserList
           users={users}
-          isPlaceholder={isPlaceholder}
           handleEdit={user => setUser({...user})}
           handleDelete={deleteUser}
         />
