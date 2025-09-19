@@ -1,9 +1,16 @@
 'use client'
+import { usePathname } from "next/navigation"
 import dynamic from "next/dynamic"
 import styled from "styled-components"
 import { ThemeProvider, type DefaultTheme } from "styled-components"
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core"
+import { faHome } from "@fortawesome/free-solid-svg-icons/faHome"
+import { faUser } from "@fortawesome/free-solid-svg-icons/faUser"
+import type { MessageKeys } from "@/lib/i18n"
 
+import Header from "./Header"
 import Logo from "./Logo"
+import Main from "./Main"
 import Side from "./Side"
 import GlobalStyle from "./GlobalStyle"
 
@@ -40,11 +47,24 @@ const RootDiv = styled.div`
   }
 `
 
+/** Root layout */
 export default function Root({
   children
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  const pathname = usePathname()
+
+  function getHeaderProps(): { icon: IconDefinition, title: MessageKeys, subtitle: MessageKeys } {
+    if (pathname === '/home') {
+      return { icon: faHome, title: 'home.header.title', subtitle: 'home.header.content' }
+    } else {
+      return { icon: faUser, title: 'users.header.title', subtitle: 'users.header.content' }
+    }
+  }
+
+  const { icon, title, subtitle } = getHeaderProps()
+
   return (
     <ClientIntlProvider>
       <ThemeProvider theme={theme}>
@@ -52,7 +72,14 @@ export default function Root({
           <GlobalStyle />
           <Logo />
           <Side />
-          {children}
+          <Header
+            icon={icon}
+            title={title}
+            subtitle={subtitle}
+          />
+          <Main>
+            {children}
+          </Main>
       </RootDiv>
       </ThemeProvider>
     </ClientIntlProvider>

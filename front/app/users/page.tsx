@@ -138,29 +138,22 @@ export default function Users(){
 
     return (
         <>
-            <Header
-                icon={faUser}
-                title='users.header.title'
-                subtitle='users.header.content'
+            <Registration 
+                user={user}
+                setUser={setUser}
+                onSend={(method, error, errorCode) => {
+                    renderConfMsg(method, error, errorCode)
+                    fetchUsers().catch(console.error)
+                }}
             />
-            <Main>
-                <Registration 
-                    user={user}
-                    setUser={setUser}
-                    onSend={(method, error, errorCode) => {
-                        renderConfMsg(method, error, errorCode)
-                        fetchUsers().catch(console.error)
-                    }}
-                />
-                {confMsg}
-                <hr/>
-                <UserList 
-                    users={users}
-                    isPlaceholder={isPlaceholder}
-                    handleEdit={user => setUser({...user})}
-                    handleDelete={deleteUser}
-                />
-            </Main>
+            {confMsg}
+            <hr/>
+            <UserList 
+                users={users}
+                isPlaceholder={isPlaceholder}
+                handleEdit={user => setUser({...user})}
+                handleDelete={deleteUser}
+            />
         </>
     )
 }
