@@ -1,6 +1,0 @@
-main.main{
-    margin: 10px;
-}
-main.main > div{
-    box-shadow: var(--shadow);
-}
