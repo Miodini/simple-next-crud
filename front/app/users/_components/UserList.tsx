@@ -3,7 +3,7 @@ import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil } from '@fortawesome/free-solid-svg-icons/faPencil'
 import { faTrash } from '@fortawesome/free-solid-svg-icons/faTrash'
-import type { User } from "./types"
+import type { User } from "../types"
 import type { GridColDef, GridActionsCellItemProps, GridRowParams } from '@mui/x-data-grid'
 
 export default function UserList ({

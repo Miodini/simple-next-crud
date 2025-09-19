@@ -1,6 +1,6 @@
 import Form from "react-bootstrap/Form"
 import { FormattedMessage } from "react-intl"
-import type { InputPropTypes } from "./types"
+import type { InputPropTypes } from "../types"
 /** Renders label and input for email entry
  * @props value - The value to be displayed
  * @props inputId - Standard HTML id

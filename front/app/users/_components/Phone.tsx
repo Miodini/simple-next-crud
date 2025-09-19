@@ -1,7 +1,7 @@
 
 import Form from "react-bootstrap/Form"
 import { FormattedMessage, useIntl } from "react-intl"
-import type { InputPropTypes } from "./types"
+import type { InputPropTypes } from "../types"
 
 /** Renders label and input for phone entry
  * @props value - The value to be displayed

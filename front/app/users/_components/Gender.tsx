@@ -1,6 +1,5 @@
 import Form from "react-bootstrap/Form"
 import { FormattedMessage } from "react-intl"
-import React from 'react'
 
 /** Renders label and input for gender entry
  * @props value - The value to be displayed
