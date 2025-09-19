@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from 'react'
 import Registration from './Registration'
 import UserList from './UserList'
 import ConfMsg from './ConfMsg'
+import Confirmation from './Confirmation'
 import Api from '@/lib/api'
 
 import type { AlertSettings, User } from './types'
@@ -29,6 +30,8 @@ export default function Users() {
   const [users, setUsers] = useState<User[]>([])     // For <UserList>
   const [user, setUser] = useState<User>(blankUserForm)        // For <Registration>
   const [alertSettings, setAlertSettings] = useState<AlertSettings>(blankAlertSettings)
+  const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false)
+  const [userToDelete, setUserToDelete] = useState<number>(0)
   const timeoutRef = useRef<number>(null)
   
   useEffect(() => {
@@ -54,10 +57,9 @@ export default function Users() {
     }
   }
 
-  // TODO: deleting multiple users without refreshing doesn't update the table correctly
-  async function deleteUser(id: number) {
+  async function deleteUser() {
     try {
-      const resp = await Api.del(id)
+      const resp = await Api.del(userToDelete)
 
       if (resp.status >= 200 && resp.status < 300) {
         configureAlert('delete')
@@ -68,6 +70,8 @@ export default function Users() {
     } catch {
       configureAlert('delete', true)
     }
+    setUserToDelete(0)
+    setShowDeleteConfirmation(false)
   }
 
   /** Shows and animates the confirmation message after a put/post/delete
@@ -137,28 +141,38 @@ export default function Users() {
     }, ALERT_TIMEOUT)
   }
 
+  function configDeleteConfirmation(userId: number) {
+    setShowDeleteConfirmation(true)
+    setUserToDelete(userId)
+  }
+
   return (
     <>
-        <Registration 
-          user={user}
-          setUser={setUser}
-          onSend={(method, error, errorCode) => {
-            configureAlert(method, error, errorCode)
-            fetchUsers().catch(console.error)
-          }}
-        />
-        <ConfMsg
-          message={alertSettings.message}
-          title={alertSettings.title}
-          variant={alertSettings.variant}
-          show={alertSettings.visible}
-        />
-        <hr/>
-        <UserList
-          users={users}
-          handleEdit={user => setUser({...user})}
-          handleDelete={deleteUser}
-        />
+      <Registration 
+        user={user}
+        setUser={setUser}
+        onSend={(method, error, errorCode) => {
+          configureAlert(method, error, errorCode)
+          fetchUsers().catch(console.error)
+        }}
+      />
+      <ConfMsg
+        message={alertSettings.message}
+        title={alertSettings.title}
+        variant={alertSettings.variant}
+        show={alertSettings.visible}
+      />
+      <hr/>
+      <UserList
+        users={users}
+        handleEdit={user => setUser({...user})}
+        handleDelete={configDeleteConfirmation}
+      />
+      <Confirmation
+        show={showDeleteConfirmation}
+        onClose={() => setShowDeleteConfirmation(false)}
+        onConfirm={deleteUser}
+      />
     </>
   )
 }

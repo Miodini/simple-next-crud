@@ -32,6 +32,10 @@ const messages = {
     'users.put.successMessage': 'User updated successfully!',
     'users.delete.errorMessage1': 'Could not delete the user. Make sure the backend server is active and running on port 3001.',
     'users.delete.successMessage': 'User deleted!',
+    'users.delete.modalTitle': 'Confirmation',
+    'users.delete.modalContent': 'Do you want to delete this user?',
+    'users.delete.cancelButton': 'Cancel',
+    'users.delete.deleteButton': 'Delete'
 } as const
 
 export default messages

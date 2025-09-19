@@ -34,6 +34,10 @@ const messages: Record<MessageKeys, string> = {
     'users.put.successMessage': 'Usuário atualizado com sucesso!',
     'users.delete.errorMessage1': 'Não foi possível deletar o usuário. Certifique-se que o servidor backend esteja ativo e executando na porta 3001.',
     'users.delete.successMessage': 'Usuário deletado!',
+    'users.delete.modalTitle': 'Confirmação',
+    'users.delete.modalContent': 'Você quer deletar esse usuário?',
+    'users.delete.cancelButton': 'Cancelar',
+    'users.delete.deleteButton': 'Deletar'
 } as const
 
 export default messages
