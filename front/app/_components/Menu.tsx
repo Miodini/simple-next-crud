@@ -6,17 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
 import { faUsers } from '@fortawesome/free-solid-svg-icons/faUsers'
 
-const Aside = styled.aside`
-    background-color: ${props => props.theme.bg};
-    color: white;
-    width: 100%;
-    box-shadow: ${props => props.theme.shadow};
-
-    @media (min-width: 768px) {
-        height: 100%;
-        grid-area: sidepanel;
-    }
-`
+const menuHeight = 50 // Mobile
 
 const Link = styled(NextLink)`
     height: 100%;
@@ -47,29 +37,30 @@ const Link = styled(NextLink)`
 `
 
 const Nav = styled.nav`
-    height: 100%;
+    width: 100%;
     display: flex;
     flex-direction: row;
     align-items: center;
+    height: ${menuHeight}px;
 
-    @media (min-width: 768px){
+    @media (min-width: 768px) {
+        /* Desktop */
+        height: 100%;
         flex-direction: column;
     }
 `
 
-export default function Side () {
+export default function Menu() {
     return (
-        <Aside>
-            <Nav>
-                <Link href='/home'>
-                    <FontAwesomeIcon icon={faHome} size="xs" />
-                    <FormattedMessage id="nav.home"/>
-                </Link>
-                <Link href='/users'>
-                    <FontAwesomeIcon icon={faUsers} size="xs" />
-                    <FormattedMessage id="nav.users"/>
-                </Link>
-            </Nav>
-        </Aside>
+        <Nav>
+            <Link href='/home'>
+                <FontAwesomeIcon icon={faHome} size="xs" />
+                <FormattedMessage id="nav.home"/>
+            </Link>
+            <Link href='/users'>
+                <FontAwesomeIcon icon={faUsers} size="xs" />
+                <FormattedMessage id="nav.users"/>
+            </Link>
+        </Nav>
     )
 }

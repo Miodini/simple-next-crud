@@ -1,31 +1,20 @@
-'use client'
+import styled from 'styled-components'
 import Image from 'next/image'
-import styled, { useTheme } from 'styled-components'
+import img from '../../public/assets/img/logo.jpg'
 
-const Aside = styled.aside`
-    background-color: ${props => props.theme.bg};
-    display: flex;
-    justify-content: center;
-
-    @media (min-width: 768px) {
-        /* Desktop */
-        & > img {
-            grid-area: logo;
-        }
-    }
+const StyledImage = styled(Image)`
+  @media (min-width: 768px){
+    /* Desktop */
+    width: 100%;
+    height: auto;
+  }
 `
 
 export default function Logo () {
-    const theme = useTheme()
-
-    return(
-        <Aside>
-            <Image
-                src={'/assets/img/logo.jpg'}
-                alt="logo"
-                width={theme.asideWidth}
-                height={theme.headerHeight}
-            />
-        </Aside>
-    )
+  return (
+    <StyledImage
+      src={img}
+      alt="Logo"
+    />
+  )
 }

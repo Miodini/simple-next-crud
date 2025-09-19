@@ -1,10 +1,7 @@
 'use client'
 import React, { useState, useEffect } from 'react'
-import { faUser } from '@fortawesome/free-solid-svg-icons/faUser'
 import axios from 'axios'
 
-import Main from '../_components/Main'
-import Header from '../_components/Header'
 import Registration from './Registration'
 import UserList from './UserList'
 import ConfMsg from './ConfMsg'

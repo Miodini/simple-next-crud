@@ -7,9 +7,6 @@ const MainElement = styled.main`
         box-shadow: 0px 0px 15px #0004;
         padding: 1rem;
     }
-    @media (min-width: 768px){
-        grid-area: main;
-    }
 `
 
 export default function Main(

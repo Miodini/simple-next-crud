@@ -11,39 +11,57 @@ import type { MessageKeys } from "@/lib/i18n"
 import Header from "./Header"
 import Logo from "./Logo"
 import Main from "./Main"
-import Side from "./Side"
+import Menu from "./Menu"
+import Footer from "./Footer"
 import GlobalStyle from "./GlobalStyle"
 
 const ClientIntlProvider = dynamic(() => import('@/lib/i18n/ClientIntlProvider'), { ssr: false })
-// Heights for mobile layout
-const menuHeight = '100px'
-const logoHeight = '75px'
 
 const theme: DefaultTheme = {
   bg: 'rgb(26, 47, 58)',
-  shadow: '0px 0px 15px #0004',
-  asideWidth: 225,
-  headerHeight: 100
+  shadow: '0px 0px 15px #0004'
 }
+
+const menuWidth = 225 // Desktop
 
 const RootDiv = styled.div`
   /* Mobile */
   height: 100%;
-  display: grid;
-  grid-template-rows: ${logoHeight} ${menuHeight} ${props => props.theme.headerHeight}px 1fr;
-  grid-template-areas: 
-    "logo"
-    "sidepanel"
-    "header"
-    "main";
+  display: flex;
+  flex-direction: column;
 
   @media (min-width: 768px){
-  /* Desktop */
-    grid-template-columns: ${props => props.theme.asideWidth}px 1fr;
-    grid-template-rows: ${props => props.theme.headerHeight}px 1fr;
-    grid-template-areas: 
-      "logo header"
-      "sidepanel main"
+    /* Desktop */
+    flex-direction: row;
+  }
+`
+
+const ContentDiv = styled.div`
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+
+  @media (min-width: 768px) {
+    /* Desktop */
+    max-height: 100%;
+    overflow-y: scroll;
+  }
+`
+
+const Aside = styled.aside`
+  /* Mobile */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: ${props => props.theme.bg};
+  color: white;
+  box-shadow: ${props => props.theme.shadow};
+  
+  @media (min-width: 768px) {
+    /* Desktop */
+    height: 100%;
+    width: ${menuWidth}px;
   }
 `
 
@@ -68,18 +86,25 @@ export default function Root({
   return (
     <ClientIntlProvider>
       <ThemeProvider theme={theme}>
+        <GlobalStyle />
         <RootDiv>
-          <GlobalStyle />
-          <Logo />
-          <Side />
-          <Header
-            icon={icon}
-            title={title}
-            subtitle={subtitle}
-          />
-          <Main>
-            {children}
-          </Main>
+          <Aside>
+            <Logo />
+            <Menu />
+          </Aside>
+          <ContentDiv>
+            <div>
+              <Header
+                icon={icon}
+                title={title}
+                subtitle={subtitle}
+              />
+              <Main>
+                {children}
+              </Main>
+            </div>
+            <Footer />
+          </ContentDiv>
       </RootDiv>
       </ThemeProvider>
     </ClientIntlProvider>
