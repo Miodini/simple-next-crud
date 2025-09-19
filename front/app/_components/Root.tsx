@@ -37,7 +37,7 @@ const RootDiv = styled.div`
 `
 
 const ContentDiv = styled.div`
-  flex-grow: 1;
+  flex: 1;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -61,7 +61,7 @@ const Aside = styled.aside`
   @media (min-width: 768px) {
     /* Desktop */
     height: 100%;
-    width: ${menuWidth}px;
+    flex: 0 0 ${menuWidth}px;
   }
 `
 

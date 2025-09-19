@@ -17,9 +17,6 @@ const HeaderElement = styled.header`
     & > p {
         margin-top: .5rem;
     }
-    @media (min-width: 768px){
-        grid-area: header;
-    }
 `
 
 export default function Header (
