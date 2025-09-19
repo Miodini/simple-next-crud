@@ -2,6 +2,7 @@
 import styled from "styled-components"
 import Image from "next/image"
 import buildInfo from '@/.buildinfo.json'
+import img from '@/public/assets/img/github-mark.svg'
 
 const FooterElement = styled.footer`
   width: 100%;
@@ -24,7 +25,7 @@ export default function Footer() {
   return (
     <FooterElement>
       <A href="https://github.com/Miodini/projetos-curso-web/tree/main/crud-react">
-        <Image src="/assets/img/github-mark.svg" alt="GitHub Logo" width={25} height={25} />
+        <Image src={img} alt="GitHub Logo" width={25} height={25} />
       </A>
       <BuildDateSpan>
         {buildInfo.buildDate.split('-')[0]}
