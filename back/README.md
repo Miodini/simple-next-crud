@@ -1,0 +1,1 @@
+Note: this project was done when I was unexperienced so expect bad code 💩
