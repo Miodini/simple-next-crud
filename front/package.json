@@ -23,7 +23,8 @@
     "react-bootstrap": "^2.10.10",
     "react-dom": "19.1.0",
     "react-intl": "^7.1.11",
-    "styled-components": "^6.1.19"
+    "styled-components": "^6.1.19",
+    "zod": "^4.1.9"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

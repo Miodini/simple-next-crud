@@ -5,7 +5,8 @@ import Container from 'react-bootstrap/Container'
 import Col from 'react-bootstrap/Col'
 import Form from 'react-bootstrap/Form'
 import Row from 'react-bootstrap/Row'
-import { FormattedMessage } from 'react-intl'
+import { FormattedMessage, useIntl } from 'react-intl'
+import * as z from 'zod'
 
 import Name from './Name'
 import Email from './Email'
@@ -15,119 +16,143 @@ import Api from '@/lib/api'
 import type { User } from '../types'
 
 const blankUser: User = {
-    id: 0,
-    name: '',
-    email: '',
-    gender: '',
-    phone: '',
+  id: 0,
+  name: '',
+  email: '',
+  gender: '',
+  phone: '',
 }
 
 export default function Registration({
-    user, setUser, onSend
+  user, setUser, onSend
 }: Readonly<{
-    user: User, setUser: React.Dispatch<User>, onSend: (method: 'put' | 'post', error?: boolean, errorCode?: number) => void
+  user: User, setUser: React.Dispatch<User>, onSend: (method: 'put' | 'post', error?: boolean, errorCode?: number) => void
 }>) {
-    // For bootstrap form verification
-    const [isValidated, setIsValidated] = useState<boolean>(false)
+  const { formatMessage } = useIntl()
+  const [isValidated, setIsValidated] = useState<boolean>(false)
+  const zodFormSchema = z.object({
+    id: z.number(),
+    name: z.string().nonempty(formatMessage({ id: 'users.field.mandatory' })),
+    email: z.email({
+      error: iss =>
+        iss.input
+          ? formatMessage({ id: 'users.field.invalidEmail' })
+          : formatMessage({ id: 'users.field.mandatory' })
+    }),
+    gender: z.enum(['M', 'F', 'O'], formatMessage({ id: 'users.field.mandatory' })),
+    phone: z.e164({
+      error: iss =>
+        iss.input
+          ? formatMessage({ id: 'users.field.invalidPhone' })
+          : formatMessage({ id: 'users.field.mandatory' })
+    })
+  })
 
-    function clear(event?: React.MouseEvent) {
-        if(event) {
-            event.preventDefault()
-        }
-        setUser({...blankUser})
-        setIsValidated(false)
+  function clear(event?: React.MouseEvent) {
+    if(event) {
+      event.preventDefault()
+    }
+    setUser(blankUser)
+    setIsValidated(false)
+  }
+
+  async function save(event?: React.MouseEvent) {
+    if (event) {
+      event.preventDefault()
     }
 
-    async function save(event?: React.MouseEvent) {
-        if(event) {
-            event.preventDefault()
-        }
-        setIsValidated(true)
-        // If there are no empty fields, save them
-        if(!Object.values(user).some(value => value === '')){
-            const method = user.id > 0 ? 'put' : 'post'    // Puts if id is defined (editing user), post otherwise
+    const parsedUser = zodFormSchema.safeParse(user)
 
-            try {
-                const resp = await (method === 'put' ? Api.put(user) : Api.post(user))
-                // Success
-                if (resp.status === 201 || resp.status === 204) {
-                    onSend(method, false)
-                    clear()
-                } else if (resp.data && 'error' in resp.data) {
-                    // Error
-                    onSend(method, true, resp.data.error.code)
-                }
-            }
-            catch {
-                onSend(method, true)
-            }
-        }
+    if (parsedUser.error) {
+      setIsValidated(true)
+      return
     }
 
-    function updateInput(field: Exclude<keyof User, 'id'>, value: string) {
-        const newUserData: User = {...user}
+    const method = parsedUser.data.id > 0 ? 'put' : 'post'    // Puts if id is defined (editing user), post otherwise
 
-        newUserData[field] = value
-        setUser(newUserData)
+    try {
+      const resp = await (method === 'put' ? Api.put(parsedUser.data) : Api.post(parsedUser.data))
+      // Success
+      if (resp.status === 201 || resp.status === 204) {
+        onSend(method, false)
+        clear()
+      } else if (resp.data && 'error' in resp.data) {
+        // Error
+        onSend(method, true, resp.data.error.code)
+      }
     }
-
-    function handleKeyPress(event: React.KeyboardEvent) {
-        if(event.key === 'Enter') {
-            save()
-        }
+    catch {
+      onSend(method, true)
     }
+  }
 
-    return(
-        <Container fluid className='mb-0'>
-            <Form
-                validated={isValidated}
-                noValidate
-                onKeyUp={handleKeyPress}
-            >
-                <Row>
-                    <Col sm={12} md={6} className='mb-2'>
-                        <Name
-                            value={user.name}
-                            inputId='formName'
-                            onChange={({ target: { value }}) => updateInput('name', value)}
-                        />
-                    </Col>
-                    <Col sm={12} md={6} className='mb-2'>
-                        <Email
-                            value={user.email}
-                            inputId='formEmail'
-                            onChange={({ target: { value }}) => updateInput('email', value)}
-                        />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col sm={12} md={6} className='mb-2'>
-                        <Gender 
-                            value={user.gender}
-                            inputId='formGender'
-                            onChange={({ target: { value }}) => updateInput('gender', value)}
-                        />
-                    </Col>
-                    <Col sm={12} md={6} className='mb-2'>
-                        <Phone 
-                            value={user.phone}
-                            inputId='formPhone'
-                            onChange={({ target: { value }}) => updateInput('phone', value)}
-                        />
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        <Button variant="primary" className='float-end' onClick={save}>
-                            <FormattedMessage id="users.button.submit" />
-                        </Button>
-                        <Button variant="secondary" className='float-end mx-1' onClick={clear}>
-                            <FormattedMessage id="users.button.clear" />
-                        </Button>
-                    </Col>
-                </Row>
-            </Form>
-        </Container>
-    )
+  function updateInput(field: Exclude<keyof User, 'id'>, value: string) {
+    const newUserData: User = {...user}
+
+    newUserData[field] = value
+    setUser(newUserData)
+  }
+
+  function handleKeyPress(event: React.KeyboardEvent) {
+    if(event.key === 'Enter') {
+      save()
+    }
+  }
+
+  return(
+    <Container fluid className='mb-0'>
+      <Form
+        noValidate
+        onKeyUp={handleKeyPress}
+      >
+        <Row>
+          <Col sm={12} md={6} className='mb-2'>
+            <Name
+              value={user.name}
+              onChange={({ target: { value }}) => updateInput('name', value)}
+              isValidated={isValidated}
+              zodSchema={zodFormSchema.shape.name}
+            />
+          </Col>
+          <Col sm={12} md={6} className='mb-2'>
+            <Email
+              value={user.email}
+              onChange={({ target: { value }}) => updateInput('email', value)}
+              isValidated={isValidated}
+              zodSchema={zodFormSchema.shape.email}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col sm={12} md={6} className='mb-2'>
+            <Gender 
+              value={user.gender}
+              onChange={({ target: { value }}) => updateInput('gender', value)}
+              isValidated={isValidated}
+              zodSchema={zodFormSchema.shape.gender}
+            />
+          </Col>
+          <Col sm={12} md={6} className='mb-2'>
+            <Phone 
+              value={user.phone}
+              onChange={({ target: { value }}) => updateInput('phone', value)}
+              isValidated={isValidated}
+              zodSchema={zodFormSchema.shape.phone}
+            />
+          </Col>
+        </Row>
+        <Row>
+          <Col>
+            <Button variant="primary" className='float-end' onClick={save}>
+              <FormattedMessage id="users.button.submit" />
+            </Button>
+            <Button variant="secondary" className='float-end mx-1' onClick={clear}>
+              <FormattedMessage id="users.button.clear" />
+            </Button>
+          </Col>
+        </Row>
+      </Form>
+    </Container>
+  )
 }
 

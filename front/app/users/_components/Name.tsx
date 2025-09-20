@@ -2,30 +2,29 @@ import Form from "react-bootstrap/Form"
 import { FormattedMessage } from "react-intl"
 import type { InputPropTypes } from "../types"
 
-/** Renders label and input for name entry
- * @props value - The value to be displayed
- * @props inputId - Standard HTML id
- * @props onChange - onChange handler function
-*/
-export default function Email ({
-    inputId, value, onChange
+export default function Name ({
+  value, onChange, isValidated, zodSchema
 }: InputPropTypes) {
-    return(
-        <Form.Group>
-            <Form.Label htmlFor={inputId}>
-                <FormattedMessage id="users.field.name" />
-            </Form.Label>
-            <Form.Control 
-                value={value}
-                id={inputId}
-                onChange={onChange}
-                type='text' 
-                name='name'
-                required
-            />
-            <Form.Control.Feedback type="invalid">
-                <FormattedMessage id="users.field.mandatory" />
-            </Form.Control.Feedback>
-        </Form.Group>
-    )
+  const parsedValue = zodSchema.safeParse(value)
+
+  return (
+    <Form.Group>
+      <Form.Label htmlFor="name">
+        <FormattedMessage id="users.field.name" />
+      </Form.Label>
+      <Form.Control 
+        value={value}
+        onChange={onChange}
+        type="text"
+        id="name"
+        isValid={isValidated && parsedValue.success}
+        isInvalid={isValidated && !parsedValue.success}
+      />
+      {parsedValue.error?.issues.map((issue, i) => (
+        <Form.Control.Feedback type="invalid" key={i}>
+          {issue.message}
+        </Form.Control.Feedback>
+      ))}
+    </Form.Group>
+  )
 }
