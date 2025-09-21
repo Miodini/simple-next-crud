@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from 'react'
 
 import Registration from './_components/Registration'
 import UserList from './_components/UserList'
+import UserListMobile from './_components/UserListMobile'
 import ConfMsg from './_components/ConfMsg'
 import Confirmation from './_components/Confirmation'
 import Api from '@/lib/api'
@@ -32,10 +33,20 @@ export default function Users() {
   const [alertSettings, setAlertSettings] = useState<AlertSettings>(blankAlertSettings)
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false)
   const [userToDelete, setUserToDelete] = useState<number>(0)
+  const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth)
   const timeoutRef = useRef<number>(null)
   
   useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth)
+    }
+
     fetchUsers()
+    window.addEventListener('resize', handleResize);
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    }
   }, [])
 
   /**
@@ -163,11 +174,19 @@ export default function Users() {
         show={alertSettings.visible}
       />
       <hr/>
-      <UserList
-        users={users}
-        handleEdit={user => setUser({...user})}
-        handleDelete={configDeleteConfirmation}
-      />
+      {screenWidth < 768 ? (
+        <UserListMobile
+          users={users}
+          handleEdit={user => setUser({...user})}
+          handleDelete={configDeleteConfirmation}
+        />
+      ) : (
+        <UserList
+          users={users}
+          handleEdit={user => setUser({...user})}
+          handleDelete={configDeleteConfirmation}
+        />
+      )}
       <Confirmation
         show={showDeleteConfirmation}
         onClose={() => setShowDeleteConfirmation(false)}
