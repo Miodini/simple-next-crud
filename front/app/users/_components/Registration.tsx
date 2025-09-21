@@ -33,19 +33,11 @@ export default function Registration({
   const zodFormSchema = z.object({
     id: z.number(),
     name: z.string().nonempty(formatMessage({ id: 'users.field.mandatory' })),
-    email: z.email({
-      error: iss =>
-        iss.input
-          ? formatMessage({ id: 'users.field.invalidEmail' })
-          : formatMessage({ id: 'users.field.mandatory' })
-    }),
+    email: z.email({ error: iss => formatMessage({ id: iss.input ? 'users.field.invalidEmail' : 'users.field.mandatory'}) }),
     gender: z.enum(['M', 'F', 'O'], formatMessage({ id: 'users.field.mandatory' })),
-    phone: z.e164({
-      error: iss =>
-        iss.input
-          ? formatMessage({ id: 'users.field.invalidPhone' })
-          : formatMessage({ id: 'users.field.mandatory' })
-    })
+    phone: z.string()
+      .regex(/^\d+$/, { error: iss => formatMessage({ id: iss.input ? 'users.field.invalidPhone' : 'users.field.mandatory'}) })
+      .max(15, formatMessage({ id: 'users.field.invalidPhone' }))
   })
 
   function clear(event?: React.MouseEvent) {
