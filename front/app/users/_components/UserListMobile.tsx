@@ -48,7 +48,7 @@ export default function UserListMobile ({
   }
 
   return (
-    <ListGroup>
+    <ListGroup role="list">
         {users.map(user => (
             <ListGroupItem className="d-flex" key={user.id}>
               <DetailsWrapper>
