@@ -94,6 +94,7 @@ export default function Registration({
   return(
     <Container fluid className='mb-0'>
       <Form
+        role="form"
         noValidate
         onKeyUp={handleKeyPress}
       >
