@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
-import { render, fireEvent, screen, within } from '../test-utils'
+import { render, fireEvent, screen, waitFor, within } from '../test-utils'
 import Page from '../../app/users/page'
 import Api from '../../lib/api'
 import type { User } from '@/app/users/types'
@@ -11,34 +11,36 @@ const mockedGet = jest.mocked(Api.get)
 const mockedPost = jest.mocked(Api.post)
 const mockedPut = jest.mocked(Api.put)
 const mockedDel = jest.mocked(Api.del)
+const users: User[] = [
+  {
+    id: 1,
+    name: 'John Doe',
+    email: 'john@domain.com',
+    phone: '123456789',
+    gender: 'M'
+  },
+  {
+    id: 2,
+    name: 'Mary Smith',
+    email: 'mary@domain.com',
+    phone: '987654321',
+    gender: 'F'
+  },
+]
 
-afterEach(() => {
-  jest.clearAllMocks()
-  window.innerWidth = 1920
-})
+mockedGet.mockResolvedValue({ data: users, status: 200 })
 
 // Validations tests covered in ./Registration.test.tsx
 describe('Page', () => {
   const user = userEvent.setup()
-  const users: User[] = [
-    {
-      id: 1,
-      name: 'John Doe',
-      email: 'john@domain.com',
-      phone: '123456789',
-      gender: 'M'
-    },
-    {
-      id: 2,
-      name: 'Mary Smith',
-      email: 'mary@domain.com',
-      phone: '987654321',
-      gender: 'F'
-    },
-  ]
   let nameInput: HTMLElement, emailInput: HTMLElement, phoneInput: HTMLElement, genderInput: HTMLElement, submitButton: HTMLElement
   
-  beforeEach(() => {
+  afterEach(() => {
+    jest.clearAllMocks()
+    window.innerWidth = 1920
+  })
+
+  beforeEach(async () => {
     render(<Page />)
 
     nameInput = screen.getByRole('textbox', { name: /name/i})
@@ -46,8 +48,12 @@ describe('Page', () => {
     phoneInput = screen.getByRole('textbox', { name: /phone/i})
     genderInput = screen.getByRole('combobox', { name: /gender/i})
     submitButton = screen.getByRole('button', { name: /submit/i})
+    
+    await waitFor(() => {
+      // Waits for data to settle before testing
+      expect(mockedGet).toHaveBeenCalled()
+    })
   })
-  mockedGet.mockReturnValue(Promise.resolve({ data: users, status: 200 }))
 
   it('renders the form and the table/list', () => {
     const table = screen.getAllByRole('presentation')[0]
