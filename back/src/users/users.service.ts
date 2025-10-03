@@ -1,57 +1,56 @@
 import { Injectable } from '@nestjs/common'
-import { User } from './users.interfaces'
+import { Prisma, type User } from '@prisma/client'
+import { PrismaService } from '../prisma.service'
 
 @Injectable()
 export class UsersService {
-  private lastId: number = 0
-  private readonly users: User[] = []
+  constructor(private readonly prisma: PrismaService) {}
 
-  getAll(): User[] {
-    return this.users
+  async getAll(): Promise<User[]> {
+    return await this.prisma.user.findMany()
   }
 
-  getOne(id: number): User | null {
-    return this.users.find((user) => user.id === id) || null
+  async getOne(id: number): Promise<User | null> {
+    return await this.prisma.user.findUnique({
+      where: { id }
+    })
   }
 
   /** @returns Inserted user */
-  create(user: Omit<User, 'id'>): User {
-    const newUser = {
-      id: ++this.lastId,
-      ...user
-    }
-
-    this.users.push(newUser)
-
-    return newUser
+  async create(user: Omit<User, 'id'>): Promise<User> {
+    return await this.prisma.user.create({
+      data: user
+    })
   }
 
   /** @returns Updated user, or null if not found */
-  update(id: number, user: Partial<User>): User | null {
-    const userIndex = this.users.findIndex(user => user.id === id)
+  async update(id: number, user: Partial<User>): Promise<User | null> {
+    delete user.id // Don't update id even if it's passed
 
-    if (userIndex >= 0) {
-      this.users[userIndex] = {
-        ...this.users[userIndex],
-        ...user
+    try {
+      return await this.prisma.user.update({
+        data: user,
+        where: { id }
+      })
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
+        return Promise.resolve(null)
       }
-
-      return this.users[userIndex]
+      throw e
     }
-
-    return null
   }
 
   /** @returns Removed user, or null if not found */
-  delete(id: number): User | null {
-    const userIndex = this.users.findIndex(user => user.id === id)
-
-    if (userIndex >= 0) {
-      const deletedUser = this.users.splice(userIndex, 1)
-
-      return deletedUser[0]
+  async delete(id: number): Promise<User | null> {
+    try {
+      return await this.prisma.user.delete({
+        where: { id }
+      })
+    } catch (e) {
+      if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
+        return Promise.resolve(null)
+      }
+      throw e
     }
-
-    return null
   }
 }

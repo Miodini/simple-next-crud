@@ -1,10 +1,9 @@
 import { PartialType, OmitType } from '@nestjs/swagger'
 import { IsEmail, IsPositive, IsNumberString, MaxLength, MinLength, IsIn } from 'class-validator'
-import type { User } from './users.interfaces'
 
-const genders: Array<User['gender']> = ['M', 'F', 'O']
+const genders = ['M', 'F', 'O'] as const
 
-class BaseUserDto implements User {
+class BaseUserDto {
   @IsPositive()
   id: number
 
@@ -20,11 +19,11 @@ class BaseUserDto implements User {
   phone: string
 
   @IsIn(genders)
-  gender: 'M' | 'F' | 'O'
+  gender: typeof genders[number]
 }
 
 export class GetUserDto extends BaseUserDto {}
 
 export class CreateUserDto extends OmitType(BaseUserDto, ['id'] as const) {}
 
-export class UpdateUserDto extends PartialType(BaseUserDto) {}
+export class UpdateUserDto extends PartialType(OmitType(BaseUserDto, ['id'] as const)) {}

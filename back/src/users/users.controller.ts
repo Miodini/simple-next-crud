@@ -9,13 +9,13 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get()
-  getAll(): GetUserDto[] {
+  async getAll(): Promise<GetUserDto[]> {
     return this.usersService.getAll()
   }
 
   @Get(':id')
-  getUser(@Param('id', ParseIntPipe) param: number): GetUserDto {
-    const user = this.usersService.getOne(param)
+  async getUser(@Param('id', ParseIntPipe) id: number): Promise<GetUserDto> {
+    const user = await this.usersService.getOne(id)
 
     if (!user) {
       throw new NotFoundException()
@@ -25,16 +25,16 @@ export class UsersController {
   }
   
   @Post()
-  createUser(@Body() createUserDto: CreateUserDto): GetUserDto {
-   return this.usersService.create(createUserDto)
+  async createUser(@Body() createUserDto: CreateUserDto): Promise<GetUserDto> {
+    return this.usersService.create(createUserDto)
   }
 
   @Put(':id')
-  updateUser(
+  async updateUser(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto
-  ): void {
-    const updatedUser = this.usersService.update(id, updateUserDto)
+  ): Promise<void> {
+    const updatedUser = await this.usersService.update(id, updateUserDto)
 
     if (!updatedUser) {
       throw new NotFoundException()
@@ -42,8 +42,8 @@ export class UsersController {
   }
 
   @Delete(':id')
-  deleteUser(@Param('id', ParseIntPipe) id: number) {
-    const deletedUser = this.usersService.delete(id)
+  async deleteUser(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    const deletedUser = await this.usersService.delete(id)
 
     if (!deletedUser) {
       throw new NotFoundException()
