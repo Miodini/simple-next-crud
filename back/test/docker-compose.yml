@@ -1,0 +1,15 @@
+volumes:
+  mysql-test-data:
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: snc-mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-test-data:/var/lib/mysql
