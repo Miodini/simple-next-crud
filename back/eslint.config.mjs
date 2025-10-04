@@ -1,14 +1,20 @@
 // @ts-check
-import eslint from '@eslint/js';
-import globals from 'globals';
-import tseslint from 'typescript-eslint';
+import eslint from '@eslint/js'
+import globals from 'globals'
+import tseslint from 'typescript-eslint'
+import { defineConfig } from 'eslint/config'
+import stylistics from '@stylistic/eslint-plugin'
 
-export default tseslint.config(
+export default defineConfig(
+  eslint.configs.recommended,
+  tseslint.configs.recommendedTypeChecked,
+  stylistics.configs.customize({
+    commaDangle: 'never',
+    braceStyle: '1tbs'
+  }),
   {
     ignores: ['eslint.config.mjs'],
   },
-  eslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
   {
     languageOptions: {
       globals: {
@@ -29,4 +35,4 @@ export default tseslint.config(
       '@typescript-eslint/no-unsafe-argument': 'warn'
     },
   },
-);
+)

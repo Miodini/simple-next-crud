@@ -20,10 +20,10 @@ export class UsersController {
     if (!user) {
       throw new NotFoundException()
     }
-    
+
     return user
   }
-  
+
   @Post()
   async createUser(@Body() createUserDto: CreateUserDto): Promise<GetUserDto> {
     return this.usersService.create(createUserDto)
