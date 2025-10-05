@@ -14,4 +14,10 @@ This is the back-end service for Simple Next Crud web application, made in NestJ
 4. You are ready to go. You can access the Swagger page by going to `http://localhost:[PORT]/api`.
 
 ## Testing
-You can run `yarn test` to run unit tests with Jest. `yarn test:e2e` runs end-to-end testing. Please note that it will compose and run a test database on port 3306, so make sure the main application's database container is not running when running this test.
+### Unit Testing
+You can run `yarn test` to run unit tests with Jest.
+
+### E2E Testing
+Before running end-to-end test, you must create a `.env.test` file, following the model from [.env.example](/.env/example), with your testing database settings.  
+**WARNING**: all data in the testing database is deleted before running the test, so make sure to not point it to your app database.  
+Run `yarn test:e2e` to run the end-to-end testing. Please note that it will compose and run the test database on port 3306, so make sure the main application's database container is not running when running this test.
