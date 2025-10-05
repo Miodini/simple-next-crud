@@ -4,7 +4,7 @@ volumes:
 services:
   mysql:
     image: mysql:8.0
-    container_name: snc-mysql
+    container_name: snc-mysql-test
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
