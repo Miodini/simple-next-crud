@@ -14,7 +14,9 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config)
 
   SwaggerModule.setup('api', app, documentFactory)
-  app.useGlobalPipes(new ValidationPipe())
+  app.useGlobalPipes(new ValidationPipe({
+    whitelist: true
+  }))
   if (process.env.NODE_ENV === 'development') {
     app.enableCors({
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
