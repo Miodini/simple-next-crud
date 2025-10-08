@@ -16,13 +16,13 @@ const post: Post = async function(user) {
 }
 
 const put: Put = async function(user) {
-    const resp = await axios.post<null>(ENDPOINT + `/${user.id}`, user)
+    const resp = await axios.put<null>(ENDPOINT + `/${user.id}`, user)
     
     return { data: resp.data, status: resp.status }
 }
 
 const del: Delete = async function(userId) {
-    const resp = await axios.post<null>(ENDPOINT, { id: userId })
+    const resp = await axios.delete<null>(ENDPOINT + `/${userId}`)
     
     return { data: resp.data, status: resp.status }
 }
