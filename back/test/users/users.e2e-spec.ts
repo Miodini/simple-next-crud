@@ -1,24 +1,12 @@
 import request from 'supertest'
+import { useContainer } from 'class-validator'
 import { Test } from '@nestjs/testing'
 import { ValidationPipe, type INestApplication } from '@nestjs/common'
 import type { GetUserDto, CreateUserDto, UpdateUserDto } from '@/users/users.dto'
 import { UsersModule } from '@/users/users.module'
 import { PrismaService } from '@/prisma.service'
+import { users } from './__mocks__/users.mock'
 
-const users: CreateUserDto[] = [
-  {
-    name: 'John Doe',
-    email: 'johndoe@email.com',
-    phone: '123456789',
-    gender: 'M'
-  },
-  {
-    name: 'Mary Smith',
-    email: 'marysmith@email.com',
-    phone: '987654321',
-    gender: 'F'
-  }
-]
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 const createGetUserMatcher = (user: CreateUserDto) => expect.objectContaining<GetUserDto>({
   id: expect.any(Number) as number,
@@ -38,6 +26,7 @@ describe('Users', () => {
 
     app = moduleRef.createNestApplication()
     app.useGlobalPipes(new ValidationPipe())
+    useContainer(app.select(UsersModule), { fallbackOnErrors: true })
     await app.init()
 
     // Initializes the database empty
@@ -130,6 +119,13 @@ describe('Users', () => {
         .expect(400)
 
       newUser.email = 'not an email'
+      await request(app.getHttpServer())
+        .post('/users')
+        .send(newUser)
+        .expect(400)
+
+      const insertedUser = await prismaService.user.create({ data: users[0] })
+      newUser.email = insertedUser.email // Duplicate e-mail
       await request(app.getHttpServer())
         .post('/users')
         .send(newUser)
@@ -244,6 +240,12 @@ describe('Users', () => {
       await request(app.getHttpServer())
         .put(`/users/${newUser.id}`)
         .send(updatedUserInfo)
+        .expect(400)
+
+      updatedUserInfo.email = newUser.email // Duplicate e-mail
+      await request(app.getHttpServer())
+        .post('/users')
+        .send(newUser)
         .expect(400)
 
       await expect(prismaService.user.findUnique({ where: { id: newUser.id } }))

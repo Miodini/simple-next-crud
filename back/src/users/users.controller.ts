@@ -1,8 +1,9 @@
 import {
-  Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put
+  Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, UsePipes
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { GetUserDto, CreateUserDto, UpdateUserDto } from './users.dto'
+import { UniqueEmailPipe } from './pipes/unique-email.pipe'
 
 @Controller('users')
 export class UsersController {
@@ -25,11 +26,13 @@ export class UsersController {
   }
 
   @Post()
+  @UsePipes(UniqueEmailPipe)
   async createUser(@Body() createUserDto: CreateUserDto): Promise<GetUserDto> {
     return this.usersService.create(createUserDto)
   }
 
   @Put(':id')
+  @UsePipes(UniqueEmailPipe)
   async updateUser(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateUserDto: UpdateUserDto

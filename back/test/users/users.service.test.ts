@@ -3,23 +3,7 @@ import { Prisma, PrismaClient, type User } from '@prisma/client'
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended'
 import { UsersService } from '@/users/users.service'
 import { PrismaService } from '@/prisma.service'
-
-const users: User[] = [
-  {
-    id: 1,
-    name: 'John Doe',
-    email: 'johndoe@email.com',
-    phone: '123456789',
-    gender: 'M'
-  },
-  {
-    id: 2,
-    name: 'Mary Smith',
-    email: 'marysmith@email.com',
-    phone: '987654321',
-    gender: 'F'
-  }
-]
+import { users } from './__mocks__/users.mock'
 
 describe('UsersService', () => {
   let prismaService: DeepMockProxy<PrismaService>
@@ -27,10 +11,11 @@ describe('UsersService', () => {
 
   beforeEach(async () => {
     const moduleRef = await Test.createTestingModule({
-      providers: [PrismaService, UsersService]
+      providers: [
+        UsersService,
+        { provide: PrismaService, useValue: mockDeep<PrismaClient>() }
+      ]
     })
-      .overrideProvider(PrismaService)
-      .useValue(mockDeep<PrismaClient>())
       .compile()
 
     prismaService = moduleRef.get(PrismaService)

@@ -4,8 +4,7 @@ import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import type { NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './app.module'
 
-async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule)
+function buildSwagger(app: NestExpressApplication) {
   const config = new DocumentBuilder()
     .setTitle('Users')
     .setDescription('Users registration')
@@ -14,9 +13,15 @@ async function bootstrap() {
   const documentFactory = () => SwaggerModule.createDocument(app, config)
 
   SwaggerModule.setup('api', app, documentFactory)
+}
+
+async function bootstrap() {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule)
+
   app.useGlobalPipes(new ValidationPipe({
     whitelist: true
   }))
+
   if (process.env.NODE_ENV === 'development') {
     app.enableCors({
       methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
@@ -24,6 +29,7 @@ async function bootstrap() {
     })
   }
 
+  buildSwagger(app)
   await app.listen(process.env.PORT ?? 3001)
 }
 void bootstrap()

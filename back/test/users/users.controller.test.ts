@@ -1,44 +1,13 @@
-import { Test } from '@nestjs/testing'
 import { NotFoundException } from '@nestjs/common'
-import { type User } from '@prisma/client'
-import { mockDeep, DeepMockProxy } from 'jest-mock-extended'
+import { mockDeep } from 'jest-mock-extended'
 import { UsersService } from '@/users/users.service'
-import { PrismaService } from '@/prisma.service'
 import { UsersController } from '@/users/users.controller'
-
-const users: User[] = [
-  {
-    id: 1,
-    name: 'John Doe',
-    email: 'johndoe@email.com',
-    phone: '123456789',
-    gender: 'M'
-  },
-  {
-    id: 2,
-    name: 'Mary Smith',
-    email: 'marysmith@email.com',
-    phone: '987654321',
-    gender: 'F'
-  }
-]
+import type { User } from '@prisma/client'
+import { users } from './__mocks__/users.mock'
 
 describe('UserController', () => {
-  let usersService: DeepMockProxy<UsersService>
-  let usersController: DeepMockProxy<UsersController>
-
-  beforeEach(async () => {
-    const moduleRef = await Test.createTestingModule({
-      controllers: [UsersController],
-      providers: [PrismaService, UsersService]
-    })
-      .overrideProvider(UsersService)
-      .useValue(mockDeep<UsersService>())
-      .compile()
-
-    usersService = moduleRef.get(UsersService)
-    usersController = moduleRef.get(UsersController)
-  })
+  const usersService = mockDeep<UsersService>()
+  const usersController = new UsersController(usersService)
 
   describe('getAll', () => {
     it('should return all users', async () => {
