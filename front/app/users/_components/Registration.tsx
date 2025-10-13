@@ -14,6 +14,7 @@ import Gender from './Gender'
 import Phone from './Phone'
 import Api from '@/lib/api'
 import type { User } from '../types'
+import { AxiosError } from 'axios'
 
 const blankUser: User = {
   id: 0,
@@ -26,7 +27,7 @@ const blankUser: User = {
 export default function Registration({
   user, setUser, onSend
 }: Readonly<{
-  user: User, setUser: React.Dispatch<User>, onSend: (method: 'put' | 'post', error?: boolean, errorCode?: number) => void
+  user: User, setUser: React.Dispatch<User>, onSend: (method: 'put' | 'post', error?: string) => void
 }>) {
   const { formatMessage } = useIntl()
   const [isValidated, setIsValidated] = useState<boolean>(false)
@@ -63,18 +64,19 @@ export default function Registration({
     const method = parsedUser.data.id > 0 ? 'put' : 'post'    // Puts if id is defined (editing user), post otherwise
 
     try {
-      const resp = await (method === 'put' ? Api.put(parsedUser.data) : Api.post(parsedUser.data))
+      await (method === 'put' ? Api.put(parsedUser.data) : Api.post(parsedUser.data))
+      
       // Success
-      if (resp.status === 201 || resp.status === 204) {
-        onSend(method, false)
-        clear()
-      } else if (resp.data && 'error' in resp.data) {
-        // Error
-        onSend(method, true, resp.data.error.code)
+      onSend(method)
+      clear()
+    } catch (e) { 
+      if (e instanceof AxiosError) {
+        if (e.response?.data?.error) {
+            onSend(method, e.response.data.error)
+        } else {
+          onSend(method, 'somethingWentWrong')
+        }
       }
-    }
-    catch {
-      onSend(method, true)
     }
   }
 

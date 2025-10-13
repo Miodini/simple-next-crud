@@ -1,11 +1,12 @@
 import {
-  Injectable, Inject, Scope, PipeTransform, BadRequestException
+  Injectable, Inject, Scope, PipeTransform
 } from '@nestjs/common'
 import { REQUEST } from '@nestjs/core'
 import type { Request } from 'express'
 import { Prisma } from '@prisma/client'
 import { PrismaService } from '@/prisma.service'
 import { CreateUserDto, UpdateUserDto } from '../users.dto'
+import { DuplicateEmailExpection } from '../exceptions/duplicate-email.exception'
 
 /**
  * Validates the incoming request `email` field.
@@ -34,7 +35,7 @@ export class UniqueEmailPipe<T extends CreateUserDto | UpdateUserDto> implements
     const user = await this.prismaService.user.findFirst({ where })
 
     if (user) {
-      throw new BadRequestException(`Email address ${email} is already registered`)
+      throw new DuplicateEmailExpection()
     }
     return value
   }

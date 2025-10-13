@@ -1,5 +1,4 @@
 import { NestFactory } from '@nestjs/core'
-import { ValidationPipe } from '@nestjs/common'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import type { NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './app.module'
@@ -17,10 +16,6 @@ function buildSwagger(app: NestExpressApplication) {
 
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule)
-
-  app.useGlobalPipes(new ValidationPipe({
-    whitelist: true
-  }))
 
   if (process.env.NODE_ENV === 'development') {
     app.enableCors({

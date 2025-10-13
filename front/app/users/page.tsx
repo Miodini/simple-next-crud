@@ -9,7 +9,8 @@ import Confirmation from './_components/Confirmation'
 import Api from '@/lib/api'
 
 import type { AlertSettings, User } from './types'
-import type { MessageKeys } from '@/lib/i18n'
+import { messages, type MessageKeys } from '@/lib/i18n'
+import { AxiosError } from 'axios'
 
 // Initial state for Registration component
 const blankUserForm: User = {
@@ -69,20 +70,23 @@ export default function Users() {
   }
 
   async function deleteUser() {
-    try {
-      const resp = await Api.del(userToDelete)
-
-      if (resp.status >= 200 && resp.status < 300) {
-        configureAlert('delete')
-        fetchUsers()
-      } else {
-        configureAlert('delete', true)
-      }
-    } catch {
-      configureAlert('delete', true)
-    }
     setUserToDelete(0)
     setShowDeleteConfirmation(false)
+
+    try {
+      await Api.del(userToDelete)
+
+        configureAlert('delete')
+        fetchUsers()
+    } catch (e) { 
+      if (e instanceof AxiosError) {
+        if (e.response?.data?.error) {
+            configureAlert('delete', e.response.data.error)
+        } else {
+          configureAlert('delete', 'somethingWentWrong')
+        }
+      }
+    }
   }
 
   /** Shows and animates the confirmation message after a put/post/delete
@@ -90,49 +94,27 @@ export default function Users() {
    * @param error If set to true, displays an error message instead
    * @param errorCode Error code
    */
-  function configureAlert(method: 'put' | 'post' | 'delete', error: boolean = false, errorCode?: number) {
+  function configureAlert(method: 'put' | 'post' | 'delete', error?: string) {
     // Callback to remove the message component from this component's state
     let title: MessageKeys, message: MessageKeys, variant: 'success' | 'danger'
 
     if (error) {
       title = 'users.error.title'
       variant = 'danger'
+      message = `users.errors.${error}` in messages.en ? `users.errors.${error}` as MessageKeys : 'users.errors.somethingWentWrong'
     } else {
       title = 'users.success.title'
       variant = 'success'
-    }
-
-    if (method === 'post') {
-      if (error) {
-        if (errorCode === 1) {
-          message = 'users.post.errorMessage1'
-        } else if (errorCode === 2) {
-          message = 'users.post.errorMessage2'
-        } else {
-          message = 'users.post.errorMessage3'
-        }
-      } else {
-        message = 'users.post.successMessage'
-      }
-    }
-    else if(method === 'put') {
-      if (error) {
-        if (errorCode === 1) {
-          message = 'users.put.errorMessage1'
-        } else if(errorCode === 2) {
-          message = 'users.put.errorMessage2'
-        } else {
-          message = 'users.put.errorMessage3'
-        }
-      } else {
-        message = 'users.put.successMessage'
-      }
-    }
-    else {
-      if (error) {
-        message = 'users.delete.errorMessage1'
-      } else {
-        message = 'users.delete.successMessage'
+      switch (method) {
+        case 'delete':
+          message = 'users.delete.successMessage'
+          break
+        case 'post':
+          message = 'users.post.successMessage'
+          break
+        case 'put':
+          message = 'users.put.successMessage'
+          break
       }
     }
 
@@ -162,8 +144,8 @@ export default function Users() {
       <Registration 
         user={user}
         setUser={setUser}
-        onSend={(method, error, errorCode) => {
-          configureAlert(method, error, errorCode)
+        onSend={(method, error) => {
+          configureAlert(method, error)
           fetchUsers()
         }}
       />

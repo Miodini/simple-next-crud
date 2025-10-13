@@ -1,11 +1,14 @@
 import {
-  Body, Controller, Delete, Get, NotFoundException, Param, ParseIntPipe, Post, Put, UsePipes
+  Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UsePipes
 } from '@nestjs/common'
 import { UsersService } from './users.service'
 import { GetUserDto, CreateUserDto, UpdateUserDto } from './users.dto'
 import { UniqueEmailPipe } from './pipes/unique-email.pipe'
+import { UserValidationPipe } from './pipes/user-validation.pipe'
+import { UserNotFoundException } from './exceptions/user-not-found.exception'
 
 @Controller('users')
+@UsePipes(UserValidationPipe)
 export class UsersController {
   constructor(private usersService: UsersService) {}
 
@@ -19,7 +22,7 @@ export class UsersController {
     const user = await this.usersService.getOne(id)
 
     if (!user) {
-      throw new NotFoundException()
+      throw new UserNotFoundException()
     }
 
     return user
@@ -40,7 +43,7 @@ export class UsersController {
     const updatedUser = await this.usersService.update(id, updateUserDto)
 
     if (!updatedUser) {
-      throw new NotFoundException()
+      throw new UserNotFoundException()
     }
   }
 
@@ -49,7 +52,7 @@ export class UsersController {
     const deletedUser = await this.usersService.delete(id)
 
     if (!deletedUser) {
-      throw new NotFoundException()
+      throw new UserNotFoundException()
     }
   }
 }
