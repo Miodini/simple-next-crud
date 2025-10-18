@@ -74,10 +74,13 @@ export default function Root({
   const pathname = usePathname()
 
   function getHeaderProps(): { icon: IconDefinition, title: MessageKeys, subtitle: MessageKeys } {
-    if (pathname === '/home') {
-      return { icon: faHome, title: 'home.header.title', subtitle: 'home.header.content' }
-    } else {
-      return { icon: faUser, title: 'users.header.title', subtitle: 'users.header.content' }
+    switch (pathname) {
+      case '/login':
+        return { icon: faHome, title: 'login.header.title', subtitle: 'login.header.content' }
+      case '/users':
+        return { icon: faUser, title: 'users.header.title', subtitle: 'users.header.content' }
+      default:
+        return { icon: faHome, title: 'home.header.title', subtitle: 'home.header.content' }
     }
   }
 
@@ -87,7 +90,7 @@ export default function Root({
     <ClientIntlProvider>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <RootDiv>
+        <RootDiv> 
           <Aside>
             <Logo />
             <Menu />

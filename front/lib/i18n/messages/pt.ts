@@ -3,6 +3,7 @@ import type { MessageKeys } from "./en"
 const messages: Record<MessageKeys, string> = {
     'nav.home': 'Início',
     'nav.users': 'Usuários',
+    'nav.login': 'Login',
     'home.header.title': 'Início',
     'home.header.content': 'Projeto CRUD desenvolvido em Next.js.',
     'home.main.title': 'Bem vindo!',
@@ -34,7 +35,9 @@ const messages: Record<MessageKeys, string> = {
     'users.delete.modalTitle': 'Confirmação',
     'users.delete.modalContent': 'Você quer deletar esse usuário?',
     'users.delete.cancelButton': 'Cancelar',
-    'users.delete.deleteButton': 'Deletar'
+    'users.delete.deleteButton': 'Deletar',
+    'login.header.title': 'Login',
+    'login.header.content': 'Login test'
 } as const
 
 export default messages
