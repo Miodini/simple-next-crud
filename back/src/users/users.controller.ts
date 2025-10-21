@@ -31,7 +31,8 @@ export class UsersController {
   @Post()
   @UsePipes(UniqueEmailPipe)
   async createUser(@Body() createUserDto: CreateUserDto): Promise<GetUserDto> {
-    return this.usersService.create(createUserDto)
+    // FIX ME
+    return this.usersService.create({ ...createUserDto, accountId: 0 })
   }
 
   @Put(':id')
