@@ -1,14 +1,13 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common'
 import { auth } from 'firebase-admin'
 import { initializeApp } from 'firebase-admin/app'
-import type { Request } from './types/request.type'
+import { PrismaService } from '@/prisma.service'
+import type { Request } from '@/common/types/request.type'
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor() {
-    initializeApp({
-      projectId: 'simple-next-crud-ca1ee'
-    })
+  constructor(private readonly prismaService: PrismaService) {
+    initializeApp({ projectId: 'simple-next-crud-ca1ee' })
   }
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
@@ -18,8 +17,9 @@ export class AuthGuard implements CanActivate {
     if (token) {
       try {
         const account = await auth().verifyIdToken(token)
+        const accountId = await this.getAccountIdFromUid(account.uid)
 
-        request.account = account
+        request.account = { ...account, id: accountId }
       } catch {
         throw new UnauthorizedException()
       }
@@ -29,6 +29,13 @@ export class AuthGuard implements CanActivate {
 
   private extractTokenFromHeader(request: Request): string | undefined {
     const [type, token] = request.headers.authorization?.split(' ') ?? []
+
     return type === 'Bearer' ? token : undefined
+  }
+
+  private async getAccountIdFromUid(uid: string): Promise<number> {
+    const account = await this.prismaService.account.findUniqueOrThrow({ select: { id: true }, where: { uid } })
+
+    return account.id
   }
 }

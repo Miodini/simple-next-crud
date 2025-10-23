@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
-import { PrismaService } from '../prisma.service'
-import type { DecodedAccount } from './types/decoded-account.type'
+import { PrismaService } from '@/prisma.service'
+import type { DecodedAccount } from '@/common/types/decoded-account.type'
 
 @Injectable()
 export class AuthService {

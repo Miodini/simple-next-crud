@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common'
 import { Prisma, type User } from '@prisma/client'
-import { PrismaService } from '../prisma.service'
+import { PrismaService } from '@/prisma.service'
 
 @Injectable()
 export class UsersService {
@@ -10,9 +10,9 @@ export class UsersService {
     return await this.prisma.user.findMany()
   }
 
-  async getOne(id: number): Promise<User | null> {
+  async getOne(id: number, accountId: number): Promise<User | null> {
     return await this.prisma.user.findUnique({
-      where: { id }
+      where: { id, accountId }
     })
   }
 
@@ -24,13 +24,13 @@ export class UsersService {
   }
 
   /** @returns Updated user, or null if not found */
-  async update(id: number, user: Partial<User>): Promise<User | null> {
+  async update(id: number, accountId: number, user: Partial<User>): Promise<User | null> {
     delete user.id // Don't update id even if it's passed
 
     try {
       return await this.prisma.user.update({
         data: user,
-        where: { id }
+        where: { id, accountId }
       })
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
@@ -41,10 +41,10 @@ export class UsersService {
   }
 
   /** @returns Removed user, or null if not found */
-  async delete(id: number): Promise<User | null> {
+  async delete(id: number, accountId: number): Promise<User | null> {
     try {
       return await this.prisma.user.delete({
-        where: { id }
+        where: { id, accountId }
       })
     } catch (e) {
       if (e instanceof Prisma.PrismaClientKnownRequestError && e.code === 'P2025') {
