@@ -14,15 +14,14 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<Request>()
     const token = this.extractTokenFromHeader(request)
 
-    if (token) {
-      try {
-        const account = await auth().verifyIdToken(token)
-        const accountId = await this.getAccountIdFromUid(account.uid)
+    if (!token) throw new UnauthorizedException()
+    try {
+      const account = await auth().verifyIdToken(token)
+      const accountId = await this.getAccountIdFromUid(account.uid)
 
-        request.account = { ...account, id: accountId }
-      } catch {
-        throw new UnauthorizedException()
-      }
+      request.account = { ...account, id: accountId }
+    } catch {
+      throw new UnauthorizedException()
     }
     return true
   }
