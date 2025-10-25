@@ -1,6 +1,7 @@
 import {
   Body, Controller, Delete, Get, Param, ParseIntPipe, Post, Put, UseGuards, UsePipes
 } from '@nestjs/common'
+import { ApiBearerAuth } from '@nestjs/swagger'
 import { UsersService } from './users.service'
 import { GetUserDto, CreateUserDto, UpdateUserDto } from './users.dto'
 import { UniqueEmailPipe } from './pipes/unique-email.pipe'
@@ -9,6 +10,7 @@ import { UserNotFoundException } from './exceptions/user-not-found.exception'
 import { AccountId } from '@/common/decorators/account-id.decorator'
 import { AuthGuard } from '@/modules/auth/auth.guard'
 
+@ApiBearerAuth()
 @Controller('users')
 @UsePipes(UserValidationPipe)
 @UseGuards(AuthGuard)
