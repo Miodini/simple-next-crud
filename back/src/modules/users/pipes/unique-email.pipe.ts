@@ -4,7 +4,7 @@ import {
 import { REQUEST } from '@nestjs/core'
 import type { Request } from 'express'
 import { Prisma } from '@prisma/client'
-import { PrismaService } from '@/prisma.service'
+import { PrismaService } from '@/modules/prisma/prisma.service'
 import { CreateUserDto, UpdateUserDto } from '../users.dto'
 import { DuplicateEmailExpection } from '../exceptions/duplicate-email.exception'
 
@@ -12,7 +12,7 @@ import { DuplicateEmailExpection } from '../exceptions/duplicate-email.exception
  * Validates the incoming request `email` field.
  * Requests should not create a new user if the same email is already registered.
  * If the request is an update operation, then updating the user with the same email address should be allowed.
- * @throws {BadRequestException}
+ * @throws {DuplicateEmailExpection}
  */
 @Injectable({ scope: Scope.REQUEST })
 export class UniqueEmailPipe<T extends CreateUserDto | UpdateUserDto> implements PipeTransform<T, Promise<T>> {

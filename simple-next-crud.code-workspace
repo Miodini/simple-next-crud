@@ -1,0 +1,10 @@
+{
+  "folders": [
+    {
+      "path": "back"
+    }
+  ],
+  "settings": {
+    "postman.settings.dotenv-detection-notification-visibility": false
+  }
+}

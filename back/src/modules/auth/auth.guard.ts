@@ -1,7 +1,7 @@
 import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from '@nestjs/common'
 import { auth } from 'firebase-admin'
 import { initializeApp } from 'firebase-admin/app'
-import { PrismaService } from '@/prisma.service'
+import { PrismaService } from '../prisma/prisma.service'
 import type { Request } from '@/common/types/request.type'
 
 @Injectable()
