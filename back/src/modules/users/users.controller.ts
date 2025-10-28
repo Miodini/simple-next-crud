@@ -49,8 +49,8 @@ export class UsersController {
   @UsePipes(UniqueEmailPipe)
   async updateUser(
     @Param('id', ParseIntPipe) id: number,
-    @Body() updateUserDto: UpdateUserDto,
-    @AccountId() accountId: number
+    @AccountId() accountId: number,
+    @Body() updateUserDto: UpdateUserDto
   ): Promise<void> {
     const updatedUser = await this.usersService.update(id, accountId, updateUserDto)
 

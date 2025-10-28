@@ -1,11 +1,15 @@
 import request from 'supertest'
-import { useContainer } from 'class-validator'
 import { Test } from '@nestjs/testing'
 import { ValidationPipe, type INestApplication } from '@nestjs/common'
-import type { GetUserDto, CreateUserDto, UpdateUserDto } from '@/users/users.dto'
-import { UsersModule } from '@/users/users.module'
-import { PrismaService } from '@/prisma.service'
+import { PrismaService } from '@/modules/prisma/prisma.service'
+import { AuthGuard } from '@/modules/auth/auth.guard'
+import { UsersModule } from '@/modules/users/users.module'
+import { AuthModule } from '@/modules/auth/auth.module'
+import { PrismaModule } from '@/modules/prisma/prisma.module'
+import { account } from '../auth/__mocks__/account.mock'
 import { users } from './__mocks__/users.mock'
+import { AuthGuardMock } from '../auth/__mocks__/auth.guard.mock'
+import type { GetUserDto, CreateUserDto, UpdateUserDto } from '@/modules/users/users.dto'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 const createGetUserMatcher = (user: CreateUserDto) => expect.objectContaining<GetUserDto>({
@@ -20,17 +24,19 @@ describe('Users', () => {
   beforeAll(async () => {
     // Initializes Nest application
     const moduleRef = await Test.createTestingModule({
-      imports: [UsersModule]
+      imports: [AuthModule, PrismaModule, UsersModule]
     })
+      .overrideGuard(AuthGuard)
+      .useClass(AuthGuardMock)
       .compile()
 
     app = moduleRef.createNestApplication()
     app.useGlobalPipes(new ValidationPipe())
-    useContainer(app.select(UsersModule), { fallbackOnErrors: true })
     await app.init()
 
-    // Initializes the database empty
     prismaService = app.get(PrismaService)
+    await prismaService.account.deleteMany()
+    await prismaService.account.create({ data: account })
   })
 
   beforeEach(async () => {

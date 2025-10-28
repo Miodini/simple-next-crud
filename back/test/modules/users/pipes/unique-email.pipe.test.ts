@@ -3,9 +3,9 @@ import { REQUEST } from '@nestjs/core'
 import { BadRequestException } from '@nestjs/common'
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended'
 import { Request } from 'express'
-import { PrismaService } from '@/prisma.service'
-import { UniqueEmailPipe } from '@/users/pipes/unique-email.pipe'
-import { CreateUserDto, UpdateUserDto } from '@/users/users.dto'
+import { PrismaService } from '@/modules/prisma/prisma.service'
+import { UniqueEmailPipe } from '@/modules/users/pipes/unique-email.pipe'
+import { CreateUserDto, UpdateUserDto } from '@/modules/users/users.dto'
 import { users } from '../__mocks__/users.mock'
 
 describe('UniqueEmailPipe', () => {

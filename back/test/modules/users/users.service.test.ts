@@ -1,8 +1,8 @@
 import { Test } from '@nestjs/testing'
 import { Prisma, PrismaClient, type User } from '@prisma/client'
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended'
-import { UsersService } from '@/users/users.service'
-import { PrismaService } from '@/prisma.service'
+import { UsersService } from '@/modules/users/users.service'
+import { PrismaService } from '@/modules/prisma/prisma.service'
 import { users } from './__mocks__/users.mock'
 
 describe('UsersService', () => {
@@ -32,12 +32,12 @@ describe('UsersService', () => {
   describe('getOne', () => {
     it('should return a single user', async () => {
       prismaService.user.findUnique.mockResolvedValue(users[0])
-      expect(await usersService.getOne(users[0].id)).toBe(users[0])
+      expect(await usersService.getOne(users[0].id, users[0].accountId)).toBe(users[0])
     })
 
     it('should not find a matching user', async () => {
       prismaService.user.findUnique.mockResolvedValue(null)
-      expect(await usersService.getOne(3)).toBe(null)
+      expect(await usersService.getOne(3, users[0].accountId)).toBe(null)
     })
   })
 
@@ -53,28 +53,28 @@ describe('UsersService', () => {
       const updatedUser: User = { ...users[1], id: users[0].id }
 
       prismaService.user.update.mockResolvedValue(updatedUser)
-      expect(await usersService.update(users[0].id, users[1])).toBe(updatedUser)
+      expect(await usersService.update(users[0].id, users[0].accountId, users[1])).toBe(updatedUser)
     })
 
     it('should fail to update a non-existing user', async () => {
       prismaService.user.update.mockImplementation(() => {
         throw new Prisma.PrismaClientKnownRequestError('', { clientVersion: '1', code: 'P2025' })
       })
-      expect(await usersService.update(users[0].id, users[1])).toBe(null)
+      expect(await usersService.update(users[0].id, users[0].accountId, users[1])).toBe(null)
     })
   })
 
   describe('delete', () => {
     it('should delete a existing user', async () => {
       prismaService.user.delete.mockResolvedValue(users[0])
-      expect(await usersService.delete(users[0].id)).toBe(users[0])
+      expect(await usersService.delete(users[0].id, users[0].accountId)).toBe(users[0])
     })
 
     it('should fail to delete a non-existing user', async () => {
       prismaService.user.delete.mockImplementation(() => {
         throw new Prisma.PrismaClientKnownRequestError('', { clientVersion: '1', code: 'P2025' })
       })
-      expect(await usersService.delete(3)).toBe(null)
+      expect(await usersService.delete(3, users[0].accountId)).toBe(null)
     })
   })
 })
