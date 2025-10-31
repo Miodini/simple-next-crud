@@ -6,7 +6,7 @@ import type { DecodedAccount } from '@/common/types/decoded-account.type'
 export class AuthService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async syncUser(account: DecodedAccount) {
+  async sync(account: DecodedAccount) {
     await this.prisma.account.upsert({
       create: { uid: account.uid, name: account.name || 'Unknown Unknown', email: account.email || 'nil' },
       update: { name: account.name, email: account.email },

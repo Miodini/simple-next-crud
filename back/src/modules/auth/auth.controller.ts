@@ -14,6 +14,6 @@ export class AuthController {
   })
   @Post('sync')
   async sync(@AccountInfo() acc: DecodedAccount) {
-    await this.authService.syncUser(acc)
+    await this.authService.sync(acc)
   }
 }

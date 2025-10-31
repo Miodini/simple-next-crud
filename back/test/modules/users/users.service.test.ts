@@ -1,5 +1,5 @@
 import { Test } from '@nestjs/testing'
-import { Prisma, PrismaClient, type User } from '@prisma/client'
+import { Prisma, type User } from '@prisma/client'
 import { mockDeep, DeepMockProxy } from 'jest-mock-extended'
 import { UsersService } from '@/modules/users/users.service'
 import { PrismaService } from '@/modules/prisma/prisma.service'
@@ -13,7 +13,7 @@ describe('UsersService', () => {
     const moduleRef = await Test.createTestingModule({
       providers: [
         UsersService,
-        { provide: PrismaService, useValue: mockDeep<PrismaClient>() }
+        { provide: PrismaService, useValue: mockDeep<PrismaService>() }
       ]
     })
       .compile()
