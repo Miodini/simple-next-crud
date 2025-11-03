@@ -1,5 +1,7 @@
 import { getApp, getApps, initializeApp, FirebaseOptions } from 'firebase/app'
-import { getAuth } from 'firebase/auth'
+import { 
+  browserLocalPersistence, getAuth, setPersistence, signInWithPopup, signOut, GoogleAuthProvider
+} from 'firebase/auth'
 
 const firebaseConfig: FirebaseOptions = {
   apiKey: process.env.NEXT_PUBLIC_API_KEY,
@@ -10,7 +12,21 @@ const firebaseConfig: FirebaseOptions = {
   appId: process.env.NEXT_PUBLIC_APP_ID
 }
 
-const app = getApps().length ? getApp() : initializeApp(firebaseConfig)
-const auth = getAuth(app)
+export const app = getApps().length ? getApp() : initializeApp(firebaseConfig)
+export const auth = getAuth(app)
+ 
+export async function login() {
+  const provider = new GoogleAuthProvider()
+  await setPersistence(auth, browserLocalPersistence)
 
-export { auth, app }
+  try {
+    await signInWithPopup(auth, provider)
+  } catch (e) {
+    console.error(e)
+  }
+}
+
+export async function logout() {
+  await signOut(auth)
+  window.location.reload()
+}
