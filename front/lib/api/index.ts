@@ -1,11 +1,28 @@
-import * as ServerApi from './serverApi'
-import * as LocalApi from './localApi'
-import type { Get, Post, Put, Delete } from './types'
+import axios from "axios"
+import type { User } from "@/app/users/types"
 
-const get: Get = process.env.NEXT_PUBLIC_USE_LOCAL_STORAGE === 'true' ? LocalApi.get : ServerApi.get
-const post: Post = process.env.NEXT_PUBLIC_USE_LOCAL_STORAGE === 'true' ? LocalApi.post : ServerApi.post
-const put: Put = process.env.NEXT_PUBLIC_USE_LOCAL_STORAGE === 'true' ? LocalApi.put : ServerApi.put
-const del: Delete = process.env.NEXT_PUBLIC_USE_LOCAL_STORAGE === 'true' ? LocalApi.del : ServerApi.del
+const ENDPOINT = 'http://localhost:3001/users'
 
-const api = { get, post, put, del }
-export default api
+export async function get() {
+    const resp = await axios.get<User[]>(ENDPOINT)
+    
+    return resp.data
+}
+
+export async function post(user: User) {
+    const resp = await axios.post<User>(ENDPOINT, user)
+    
+    return resp.data
+}
+
+export async function put(user: User) {
+    const resp = await axios.put<null>(ENDPOINT + `/${user.id}`, user)
+    
+    return resp.data
+}
+
+export async function del(userId: number) {
+    const resp = await axios.delete<null>(ENDPOINT + `/${userId}`)
+    
+    return resp.data
+}

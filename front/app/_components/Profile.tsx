@@ -4,11 +4,9 @@ import Image from 'next/image'
 import styled from 'styled-components'
 import Dropdown from 'react-bootstrap/Dropdown'
 import blankProfile from '@/public/assets/img/blank-profile.svg'
-import useAuthentication from '../_hooks/useAuthentication'
 import googleLogo from '@/public/assets/img/google-logo.png'
+import { useAuthentication } from '@/lib/AuthContext'
 import { login, logout } from '@/lib/firebase/client'
-
-import type { User } from 'firebase/auth'
 
 type PropType = Readonly<{
   onClick: React.MouseEventHandler<HTMLButtonElement>
@@ -38,6 +36,7 @@ const ProfileToggle = forwardRef<HTMLButtonElement, PropType>((
           alt="Profile Picture" 
           width={50} 
           height={50}
+          referrerPolicy="no-referrer"
       />
       {displayName || 'User'}
     </Frame>
@@ -47,17 +46,17 @@ const ProfileToggle = forwardRef<HTMLButtonElement, PropType>((
 ProfileToggle.displayName = 'ProfileFrame'
 
 export default function Profile () {
-  const user: User | null = useAuthentication()
+  const { account } = useAuthentication()
 
   return (
     <Dropdown>
       <Dropdown.Toggle
         as={ProfileToggle}
-        profilePicture={user?.photoURL}
-        displayName={user?.displayName?.split(' ')[0]}
+        profilePicture={account?.photoURL}
+        displayName={account?.displayName?.split(' ')[0]}
       />
       <Dropdown.Menu>
-        {user ? (
+        {account ? (
           <Dropdown.Item onClick={logout}>
             <span className="ms-1">Sign-out</span>
           </Dropdown.Item>

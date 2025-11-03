@@ -28,5 +28,4 @@ export async function login() {
 
 export async function logout() {
   await signOut(auth)
-  window.location.reload()
 }
