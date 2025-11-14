@@ -5,7 +5,6 @@ import { FormattedMessage } from 'react-intl'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
 import { faUsers } from '@fortawesome/free-solid-svg-icons/faUsers'
-import { faKey } from '@fortawesome/free-solid-svg-icons/faKey'
 
 const menuHeight = 50 // Mobile
 
@@ -61,10 +60,6 @@ export default function Menu() {
             <Link href='/users'>
                 <FontAwesomeIcon icon={faUsers} size="xs" />
                 <FormattedMessage id="nav.users"/>
-            </Link>
-            <Link href='/login'>
-                <FontAwesomeIcon icon={faKey} size="xs" />
-                <FormattedMessage id="nav.login"/>
             </Link>
         </Nav>
     )
