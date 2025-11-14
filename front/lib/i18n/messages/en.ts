@@ -34,6 +34,9 @@ const messages = {
     'users.delete.modalContent': 'Do you want to delete this user?',
     'users.delete.cancelButton': 'Cancel',
     'users.delete.deleteButton': 'Delete',
+    'users.overlay.title': 'Login Required',
+    'users.overlay.message': 'Please log in to access this page.',
+    'users.overlay.button': 'Login',
     'login.header.title': 'Login',
     'login.header.content': 'Login test'
 } as const

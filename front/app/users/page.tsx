@@ -2,7 +2,9 @@
 import { useState, useEffect, useRef } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { AxiosError } from 'axios'
+import styled from 'styled-components'
 
+import BlurOverlay from './_components/BlurOverlay'
 import Registration from './_components/Registration'
 import UserList from './_components/UserList'
 import UserListMobile from './_components/UserListMobile'
@@ -12,6 +14,11 @@ import { useAuthentication } from '@/lib/AuthContext'
 import * as Api from '@/lib/api'
 import { messages, type MessageKeys } from '@/lib/i18n'
 import type { AlertSettings, User } from './types'
+
+const ProtectedContainer = styled.div`
+  position: relative;
+  width: 100%;
+`
 
 // Initial state for Registration component
 const blankUserForm: User = {
@@ -127,7 +134,9 @@ export default function Users() {
   }
 
   return (
-    <>
+    <ProtectedContainer style={{ pointerEvents: !account ? 'none' : 'auto' }}>
+      {/* Displays an overlay to ask users to login before interacting with this page */}
+      {!account && <BlurOverlay />}
       <Registration 
         user={user}
         setUser={setUser}
@@ -161,6 +170,6 @@ export default function Users() {
         onClose={() => setShowDeleteConfirmation(false)}
         onConfirm={deleteUser}
       />
-    </>
+    </ProtectedContainer>
   )
 }

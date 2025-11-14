@@ -36,6 +36,9 @@ const messages: Record<MessageKeys, string> = {
     'users.delete.modalContent': 'Você quer deletar esse usuário?',
     'users.delete.cancelButton': 'Cancelar',
     'users.delete.deleteButton': 'Deletar',
+    'users.overlay.title': 'Login Necessário',
+    'users.overlay.message': 'Por favor, faça login para acessar esta página.',
+    'users.overlay.button': 'Login',
     'login.header.title': 'Login',
     'login.header.content': 'Login test'
 } as const
