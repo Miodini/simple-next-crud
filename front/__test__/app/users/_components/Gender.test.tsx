@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 import * as z from 'zod'
-import { render, screen } from '../../test-utils'
-import Gender from '../../../app/users/_components/Gender'
+import { render, screen } from '@/__test__/test-utils'
+import Gender from '@/app/users/_components/Gender'
  
 // Validations tests covered in ./Registration.test.tsx
 describe('Gender', () => {

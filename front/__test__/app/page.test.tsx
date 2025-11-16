@@ -1,5 +1,5 @@
-import { render } from './test-utils'
-import Page from '../app/page'
+import { render } from '@/__test__/test-utils'
+import Page from '@/app/page'
 
 jest.mock('next/navigation', () => ({
   redirect: jest.fn(),

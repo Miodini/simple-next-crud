@@ -1,11 +1,11 @@
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
-import { render, screen } from '../../test-utils'
-import Registration from '../../../app/users/_components/Registration'
-import Api from '../../../lib/api'
+import { render, screen } from '@/__test__/test-utils'
+import Registration from '@/app/users/_components/Registration'
+import * as Api from '@/lib/api'
 import type { User } from '@/app/users/types'
 
-jest.mock('../../../lib/api')
+jest.mock('@/lib/api')
 
 const mockedPost = jest.mocked(Api.post)
 const mockedPut = jest.mocked(Api.put)

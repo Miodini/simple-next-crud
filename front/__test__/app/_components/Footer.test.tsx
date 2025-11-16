@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
-import { render, screen } from '../test-utils'
-import Footer from '../../app/_components/Footer'
+import { render, screen } from '@/__test__/test-utils'
+import Footer from '@/app/_components/Footer'
  
 describe('Footer', () => {
   it('renders the GitHub logo with navigation', () => {

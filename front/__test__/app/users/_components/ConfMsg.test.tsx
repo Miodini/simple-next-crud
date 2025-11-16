@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
-import { render, screen } from '../../test-utils'
-import ConfMsg from '../../../app/users/_components/ConfMsg'
+import { render, screen } from '@/__test__/test-utils'
+import ConfMsg from '@/app/users/_components/ConfMsg'
  
 describe('ConfMsg', () => {
   const variant = 'primary'

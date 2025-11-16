@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
-import { render, screen } from '../test-utils'
+import { render, screen } from '@/__test__/test-utils'
 import { faHome } from '@fortawesome/free-solid-svg-icons/faHome'
-import Header from '../../app/_components/Header'
+import Header from '@/app/_components/Header'
  
 describe('Header', () => {
   it('renders the header, with icon, title and content', () => {

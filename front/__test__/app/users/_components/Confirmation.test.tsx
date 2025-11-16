@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
-import { render, screen } from '../../test-utils'
-import Confirmation from '../../../app/users/_components/Confirmation'
+import { render, screen } from '@/__test__/test-utils'
+import Confirmation from '@/app/users/_components/Confirmation'
  
 describe('Confirmation', () => {
   const user = userEvent.setup()

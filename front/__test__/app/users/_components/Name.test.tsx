@@ -1,44 +1,44 @@
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 import * as z from 'zod'
-import { render, screen } from '../../test-utils'
-import Phone from '../../../app/users/_components/Phone'
+import { render, screen } from '@/__test__/test-utils'
+import Name from '@/app/users/_components/Name'
  
 // Validations tests covered in ./Registration.test.tsx
-describe('Phone', () => {
+describe('Name', () => {
   const value = 'John Doe'
   const user = userEvent.setup()
-  const phoneSchema = z.string()
+  const nameSchema = z.string()
   const onChange = jest.fn()
 
-  it('renders the phone field with provided value', () => {
+  it('renders the name field with provided value', () => {
     render (
-      <Phone
+      <Name
         value={value}
         onChange={onChange}
         isValidated={false}
-        zodSchema={phoneSchema}
+        zodSchema={nameSchema}
       />
     )
   
-    const phoneField = screen.getByRole('textbox')
+    const nameField = screen.getByRole('textbox')
 
-    expect(phoneField).toBeInTheDocument()
-    expect(phoneField).toHaveValue(value)
+    expect(nameField).toBeInTheDocument()
+    expect(nameField).toHaveValue(value)
   })
   it('reacts to user input', async () => {
     render (
-      <Phone
+      <Name
         value=""
         onChange={onChange}
         isValidated={false}
-        zodSchema={phoneSchema}
+        zodSchema={nameSchema}
       />
     )
 
-    const phoneField = screen.getByRole('textbox')
+    const nameField = screen.getByRole('textbox')
 
-    await user.type(phoneField, value)
+    await user.type(nameField, value)
     expect(onChange).toHaveBeenCalled()
   })
 })

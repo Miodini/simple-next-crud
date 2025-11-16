@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
-import { render, screen } from '../../test-utils'
-import UserList from '../../../app/users/_components/UserList'
+import { render, screen } from '@/__test__/test-utils'
+import UserList from '@/app/users/_components/UserList'
 import type { User } from '@/app/users/types'
 
 describe('UserList', () => {

@@ -1,8 +1,8 @@
 import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 import * as z from 'zod'
-import { render, screen } from '../../test-utils'
-import Email from '../../../app/users/_components/Email'
+import { render, screen } from '@/__test__/test-utils'
+import Email from '@/app/users/_components/Email'
 
 // Validations tests covered in ./Registration.test.tsx
 describe('Email', () => {

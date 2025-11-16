@@ -1,6 +1,6 @@
 import '@testing-library/jest-dom'
-import { render, screen } from '../test-utils'
-import Main from '../../app/_components/Main'
+import { render, screen } from '@/__test__/test-utils'
+import Main from '@/app/_components/Main'
  
 describe('Main', () => {
   it('renders the main content', () => {
