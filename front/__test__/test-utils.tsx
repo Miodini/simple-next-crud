@@ -4,12 +4,6 @@ import { ThemeProvider, type DefaultTheme } from "styled-components"
 import { IntlProvider } from 'react-intl'
 import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { messages } from '../lib/i18n/index'
-import { mockUser } from './mocks'
-
-jest.mock('@/lib/AuthContext', () => ({
-  AuthProvider: ({ children }: { children: React.ReactNode }) => children,
-  useAuthentication: () => ({ account: mockUser })
-}))
 
 const theme: DefaultTheme = {
   bg: 'rgb(26, 47, 58)',

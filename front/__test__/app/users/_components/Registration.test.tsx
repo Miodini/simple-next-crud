@@ -2,13 +2,7 @@ import '@testing-library/jest-dom'
 import userEvent from '@testing-library/user-event'
 import { render, screen } from '@/__test__/test-utils'
 import Registration from '@/app/users/_components/Registration'
-import * as Api from '@/lib/api'
 import type { User } from '@/app/users/types'
-
-jest.mock('@/lib/api')
-
-const mockedPost = jest.mocked(Api.post)
-const mockedPut = jest.mocked(Api.put)
 
 afterEach(() => {
   jest.clearAllMocks()
@@ -61,9 +55,8 @@ describe('Registration', () => {
   
       const submitButton = screen.getByRole('button', { name: 'Submit' })
   
-      mockedPost.mockReturnValueOnce(Promise.resolve({ data: { ...validUser, id: 1 }, status: 201 }))
       await user.click(submitButton)
-      expect(onSend).toHaveBeenCalledWith('post', false)
+      expect(onSend).toHaveBeenCalledWith('post')
     })
     it('submits valid data for editing user', async () => {
       const validUser: User = {
@@ -84,9 +77,8 @@ describe('Registration', () => {
   
       const submitButton = screen.getByRole('button', { name: 'Submit' })
   
-      mockedPut.mockReturnValueOnce(Promise.resolve({ data: null, status: 204 }))
       await user.click(submitButton)
-      expect(onSend).toHaveBeenCalledWith('put', false)
+      expect(onSend).toHaveBeenCalledWith('put')
     })
   })
 

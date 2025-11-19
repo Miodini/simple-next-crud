@@ -3,32 +3,13 @@ import userEvent from '@testing-library/user-event'
 import { render, fireEvent, screen, waitFor, within } from '@/__test__/test-utils'
 import Page from '@/app/users/page'
 import * as Api from '@/lib/api'
+import { mockUsers } from '@/__test__/mocks'
 import type { User } from '@/app/users/types'
-
-jest.mock('@/lib/api')
 
 const mockedGet = jest.mocked(Api.get)
 const mockedPost = jest.mocked(Api.post)
 const mockedPut = jest.mocked(Api.put)
 const mockedDel = jest.mocked(Api.del)
-const users: User[] = [
-  {
-    id: 1,
-    name: 'John Doe',
-    email: 'john@domain.com',
-    phone: '123456789',
-    gender: 'M'
-  },
-  {
-    id: 2,
-    name: 'Mary Smith',
-    email: 'mary@domain.com',
-    phone: '987654321',
-    gender: 'F'
-  },
-]
-
-mockedGet.mockResolvedValue({ data: users, status: 200 })
 
 // Validations tests covered in ./Registration.test.tsx
 describe('Page', () => {
@@ -68,9 +49,9 @@ describe('Page', () => {
   it('gets user data and displays it', async () => {
     expect(mockedGet).toHaveBeenCalled()
 
-    await screen.findByText(users[0].name)
-    expect(screen.getByText(users[0].name)).toBeInTheDocument()
-    expect(screen.getByText(users[1].name)).toBeInTheDocument()
+    await screen.findByText(mockUsers[0].name)
+    expect(screen.getByText(mockUsers[0].name)).toBeInTheDocument()
+    expect(screen.getByText(mockUsers[1].name)).toBeInTheDocument()
   })
   it('clears form input', async () => {
       const newUser: User = {
@@ -114,7 +95,7 @@ describe('Page', () => {
     const editButton = (await screen.findAllByRole('menuitem', { name: /edit/i }))[0]
 
     await user.click(editButton)
-    expect(nameInput).toHaveValue(users[0].name)
+    expect(nameInput).toHaveValue(mockUsers[0].name)
 
     await user.clear(nameInput)
     await user.type(nameInput, 'Rin Hoshizora')

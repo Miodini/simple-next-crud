@@ -6,11 +6,11 @@ import Header from '@/app/_components/Header'
 describe('Header', () => {
   it('renders the header, with icon, title and content', () => {
     render(
-        <Header
-            icon={faHome}
-            title="home.header.title"
-            subtitle="home.header.content"
-        />
+      <Header
+        icon={faHome}
+        title="home.header.title"
+        subtitle="home.header.content"
+      />
     )
  
     expect(screen.getByText('Home')).toBeInTheDocument() // Title

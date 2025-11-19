@@ -7,17 +7,7 @@ jest.mock('next/navigation', () => ({
     usePathname: jest.fn()
 }))
 
-jest.mock('@tanstack/react-query', () => ({
-  QueryClient: jest.fn(),
-  QueryClientProvider: ({ children }: { children: React.ReactNode }) => children
-}))
-
-jest.mock('@/lib/AuthContext', () => ({
-  AuthProvider: ({ children }: { children: React.ReactNode }) => children
-}))
-
- 
-describe.skip('Root', () => {
+describe('Root', () => {
   it('renders the home page', async () => {
     jest.mocked(usePathname).mockReturnValue('/home')
     render(
