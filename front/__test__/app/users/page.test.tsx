@@ -54,24 +54,25 @@ describe('Page', () => {
     expect(screen.getByText(mockUsers[1].name)).toBeInTheDocument()
   })
   it('clears form input', async () => {
-      const newUser: User = {
-        id: 0,
-        name: 'Rin Hoshizora',
-        email: 'rin@mail.com',
-        phone: '1231241',
-        gender: 'F'
-      }
-      await user.type(nameInput, newUser.name)
-      await user.type(emailInput, newUser.email)
-      await user.type(phoneInput, newUser.phone)
-      await user.selectOptions(genderInput, newUser.gender)
-      await user.click(screen.getByRole('button', { name: /clear/i }))
+    const newUser: User = {
+      id: 0,
+      name: 'Rin Hoshizora',
+      email: 'rin@mail.com',
+      phone: '1231241',
+      gender: 'F'
+    }
 
-      expect(nameInput).toHaveValue('')
-      expect(emailInput).toHaveValue('')
-      expect(phoneInput).toHaveValue('')
-      expect(genderInput).toHaveValue('')
-    })
+    fireEvent.change(nameInput, {target: {value: newUser.name}})
+    fireEvent.change(emailInput, {target: {value: newUser.email}})
+    fireEvent.change(phoneInput, {target: {value: newUser.phone}})
+    fireEvent.change(genderInput, {target: {value: newUser.gender}})
+    await user.click(screen.getByRole('button', { name: /clear/i }))
+
+    expect(nameInput).toHaveValue('')
+    expect(emailInput).toHaveValue('')
+    expect(phoneInput).toHaveValue('')
+    expect(genderInput).toHaveValue('')
+  })
   it('creates a new user', async () => {
     const newUser: User = {
       id: 0,
@@ -81,10 +82,11 @@ describe('Page', () => {
       gender: 'F'
     }
 
-    await user.type(nameInput, newUser.name)
-    await user.type(emailInput, newUser.email)
-    await user.type(phoneInput, newUser.phone)
-    await user.selectOptions(genderInput, newUser.gender)
+    fireEvent.change(nameInput, {target: {value: newUser.name}})
+    fireEvent.change(emailInput, {target: {value: newUser.email}})
+    fireEvent.change(phoneInput, {target: {value: newUser.phone}})
+    fireEvent.change(genderInput, {target: {value: newUser.gender}})
+
     await user.click(submitButton)
 
     expect(mockedPost).toHaveBeenCalled()
@@ -97,8 +99,7 @@ describe('Page', () => {
     await user.click(editButton)
     expect(nameInput).toHaveValue(mockUsers[0].name)
 
-    await user.clear(nameInput)
-    await user.type(nameInput, 'Rin Hoshizora')
+    fireEvent.change(nameInput, { target: { value: 'Rin Hoshizora' } })
     await user.click(submitButton)
     expect(mockedPut).toHaveBeenCalled()
   })
