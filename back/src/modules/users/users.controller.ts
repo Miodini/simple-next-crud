@@ -18,8 +18,8 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @Get()
-  async getAll(): Promise<GetUserDto[]> {
-    return this.usersService.getAll()
+  async getAll(@AccountId() accountId: number): Promise<GetUserDto[]> {
+    return this.usersService.getAll(accountId)
   }
 
   @Get(':id')
