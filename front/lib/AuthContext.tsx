@@ -3,6 +3,7 @@ import { createContext, useContext, useEffect, useState } from 'react'
 import { onAuthStateChanged, type User } from 'firebase/auth'
 import { useQueryClient } from '@tanstack/react-query'
 import { auth } from '@/lib/firebase/client'
+import { sync } from './api'
 import axios from 'axios'
 
 type AuthContextType = {
@@ -22,6 +23,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           const idToken = await account.getIdToken()
 
           axios.defaults.headers['Authorization'] = `Bearer ${idToken}`
+          await sync() // Upserts the user info in the database
         } catch (e) {
           console.error(e)
         }
