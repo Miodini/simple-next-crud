@@ -1,13 +1,14 @@
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import type { NestExpressApplication } from '@nestjs/platform-express'
-import { AppModule } from './app.module'
+import { AppModule } from './modules/app.module'
 
 function buildSwagger(app: NestExpressApplication) {
   const config = new DocumentBuilder()
     .setTitle('Users')
     .setDescription('Users registration')
     .setVersion('1.0')
+    .addBearerAuth()
     .build()
   const documentFactory = () => SwaggerModule.createDocument(app, config)
 

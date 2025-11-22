@@ -2,6 +2,7 @@
 import { render, type RenderOptions } from '@testing-library/react'
 import { ThemeProvider, type DefaultTheme } from "styled-components"
 import { IntlProvider } from 'react-intl'
+import { QueryClientProvider, QueryClient } from '@tanstack/react-query'
 import { messages } from '../lib/i18n/index'
 
 const theme: DefaultTheme = {
@@ -9,13 +10,23 @@ const theme: DefaultTheme = {
   shadow: '0px 0px 15px #0004'
 }
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      retry: false
+    }
+  }
+})
+
 const AllTheProviders = ({children}: {children: React.ReactNode}) => {
   return (
-    <ThemeProvider theme={theme}>
-      <IntlProvider locale='en' messages={messages.en}>
-        {children}
-      </IntlProvider>
-    </ThemeProvider>
+    <IntlProvider locale='en' messages={messages.en}>
+      <ThemeProvider theme={theme}>
+        <QueryClientProvider client={queryClient}>
+          {children}
+        </QueryClientProvider>
+      </ThemeProvider>
+    </IntlProvider>
   )
 }
 

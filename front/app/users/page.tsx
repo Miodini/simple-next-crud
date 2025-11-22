@@ -1,16 +1,24 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
+import { useQuery } from '@tanstack/react-query'
+import { AxiosError } from 'axios'
+import styled from 'styled-components'
 
+import BlurOverlay from './_components/BlurOverlay'
 import Registration from './_components/Registration'
 import UserList from './_components/UserList'
 import UserListMobile from './_components/UserListMobile'
 import ConfMsg from './_components/ConfMsg'
 import Confirmation from './_components/Confirmation'
-import Api from '@/lib/api'
-
-import type { AlertSettings, User } from './types'
+import { useAuthentication } from '@/lib/AuthContext'
+import * as Api from '@/lib/api'
 import { messages, type MessageKeys } from '@/lib/i18n'
-import { AxiosError } from 'axios'
+import type { AlertSettings, User } from './types'
+
+const ProtectedContainer = styled.div`
+  position: relative;
+  width: 100%;
+`
 
 // Initial state for Registration component
 const blankUserForm: User = {
@@ -29,7 +37,7 @@ const blankAlertSettings: AlertSettings = {
 const ALERT_TIMEOUT = 10000
 
 export default function Users() {
-  const [users, setUsers] = useState<User[]>([])     // For <UserList>
+  const { account } = useAuthentication()
   const [user, setUser] = useState<User>(blankUserForm)        // For <Registration>
   const [alertSettings, setAlertSettings] = useState<AlertSettings>(blankAlertSettings)
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState<boolean>(false)
@@ -37,37 +45,23 @@ export default function Users() {
   const [screenWidth, setScreenWidth] = useState<number>(window.innerWidth)
   const timeoutRef = useRef<number>(null)
   
+  const { data: users = [], refetch } = useQuery({
+    queryKey: ['users'],
+    queryFn: Api.get,
+    enabled: !!account
+  })
+
   useEffect(() => {
     const handleResize = () => {
       setScreenWidth(window.innerWidth)
     }
 
-    fetchUsers()
     window.addEventListener('resize', handleResize);
 
     return () => {
       window.removeEventListener('resize', handleResize);
     }
   }, [])
-
-  /**
-   * Gets the users from db and updates the state
-   */
-  async function fetchUsers() {
-    try {
-      // Render users if response is not empty
-      const { data } = await Api.get()
-      
-      if (Array.isArray(data)) {
-        setUsers(data)
-      } else {
-        setUsers([])
-      }
-    }
-    catch {
-      setUsers([])
-    }
-  }
 
   async function deleteUser() {
     setUserToDelete(0)
@@ -76,8 +70,8 @@ export default function Users() {
     try {
       await Api.del(userToDelete)
 
-        configureAlert('delete')
-        fetchUsers()
+      configureAlert('delete')
+      refetch()
     } catch (e) { 
       if (e instanceof AxiosError) {
         if (e.response?.data?.error) {
@@ -140,13 +134,15 @@ export default function Users() {
   }
 
   return (
-    <>
+    <ProtectedContainer style={{ pointerEvents: !account ? 'none' : 'auto' }}>
+      {/* Displays an overlay to ask users to login before interacting with this page */}
+      {!account && <BlurOverlay />}
       <Registration 
         user={user}
         setUser={setUser}
         onSend={(method, error) => {
           configureAlert(method, error)
-          fetchUsers()
+          refetch()
         }}
       />
       <ConfMsg
@@ -174,6 +170,6 @@ export default function Users() {
         onClose={() => setShowDeleteConfirmation(false)}
         onConfirm={deleteUser}
       />
-    </>
+    </ProtectedContainer>
   )
 }

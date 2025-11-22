@@ -1,18 +1,30 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
 datasource db {
   provider = "mysql"
   url      = env("MYSQL_URL")
 }
 
-generator client {
-  provider = "prisma-client-js"
+model User {
+  id        Int        @id @default(autoincrement())
+  name      String     @db.VarChar(100)
+  email     String     @db.VarChar(100)
+  phone     String     @db.VarChar(20)
+  gender    UserGender
+  accountId Int        @map("account_id")
+  Account   Account    @relation(fields: [accountId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "User_Account_FK")
+
+  @@index([accountId], map: "account_id")
 }
 
-model User {
-  id     Int          @id @default(autoincrement())
-  name   String      @db.VarChar(100)
-  email  String      @db.VarChar(100)
-  phone  String      @db.VarChar(20)
-  gender UserGender
+model Account {
+  id    Int    @id @default(autoincrement())
+  name  String @db.VarChar(100)
+  email String @db.VarChar(100)
+  uid   String @unique(map: "Account_UNIQUE") @db.VarChar(36)
+  User  User[]
 }
 
 enum UserGender {

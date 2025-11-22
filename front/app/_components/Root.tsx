@@ -3,9 +3,11 @@ import { usePathname } from "next/navigation"
 import dynamic from "next/dynamic"
 import styled from "styled-components"
 import { ThemeProvider, type DefaultTheme } from "styled-components"
-import type { IconDefinition } from "@fortawesome/fontawesome-svg-core"
 import { faHome } from "@fortawesome/free-solid-svg-icons/faHome"
 import { faUser } from "@fortawesome/free-solid-svg-icons/faUser"
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { AuthProvider } from '@/lib/AuthContext'
+import type { IconDefinition } from "@fortawesome/fontawesome-svg-core"
 import type { MessageKeys } from "@/lib/i18n"
 
 import Header from "./Header"
@@ -16,6 +18,14 @@ import Footer from "./Footer"
 import GlobalStyle from "./GlobalStyle"
 
 const ClientIntlProvider = dynamic(() => import('@/lib/i18n/ClientIntlProvider'), { ssr: false })
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false
+    }
+  }
+})
 
 const theme: DefaultTheme = {
   bg: 'rgb(26, 47, 58)',
@@ -74,10 +84,13 @@ export default function Root({
   const pathname = usePathname()
 
   function getHeaderProps(): { icon: IconDefinition, title: MessageKeys, subtitle: MessageKeys } {
-    if (pathname === '/home') {
-      return { icon: faHome, title: 'home.header.title', subtitle: 'home.header.content' }
-    } else {
-      return { icon: faUser, title: 'users.header.title', subtitle: 'users.header.content' }
+    switch (pathname) {
+      case '/login':
+        return { icon: faHome, title: 'login.header.title', subtitle: 'login.header.content' }
+      case '/users':
+        return { icon: faUser, title: 'users.header.title', subtitle: 'users.header.content' }
+      default:
+        return { icon: faHome, title: 'home.header.title', subtitle: 'home.header.content' }
     }
   }
 
@@ -86,26 +99,30 @@ export default function Root({
   return (
     <ClientIntlProvider>
       <ThemeProvider theme={theme}>
-        <GlobalStyle />
-        <RootDiv>
-          <Aside>
-            <Logo />
-            <Menu />
-          </Aside>
-          <ContentDiv>
-            <div>
-              <Header
-                icon={icon}
-                title={title}
-                subtitle={subtitle}
-              />
-              <Main>
-                {children}
-              </Main>
-            </div>
-            <Footer />
-          </ContentDiv>
-      </RootDiv>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <GlobalStyle />
+            <RootDiv> 
+              <Aside>
+                <Logo />
+                <Menu />
+              </Aside>
+              <ContentDiv>
+                <div>
+                  <Header
+                    icon={icon}
+                    title={title}
+                    subtitle={subtitle}
+                  />
+                  <Main>
+                    {children}
+                  </Main>
+                </div>
+                <Footer />
+              </ContentDiv>
+            </RootDiv>
+          </AuthProvider>
+        </QueryClientProvider>
       </ThemeProvider>
     </ClientIntlProvider>
   )

@@ -1,6 +1,7 @@
 const messages = {
     'nav.home': 'Home',
     'nav.users': 'Users',
+    'nav.login': 'Login',
     'home.header.title': 'Home',
     'home.header.content': 'CRUD project developed in Next.js.',
     'home.main.title': 'Welcome!',
@@ -32,7 +33,12 @@ const messages = {
     'users.delete.modalTitle': 'Confirmation',
     'users.delete.modalContent': 'Do you want to delete this user?',
     'users.delete.cancelButton': 'Cancel',
-    'users.delete.deleteButton': 'Delete'
+    'users.delete.deleteButton': 'Delete',
+    'users.overlay.title': 'Login Required',
+    'users.overlay.message': 'Please log in to access this page.',
+    'users.overlay.button': 'Login',
+    'login.header.title': 'Login',
+    'login.header.content': 'Login test'
 } as const
 
 export default messages

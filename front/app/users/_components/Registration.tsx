@@ -12,7 +12,7 @@ import Name from './Name'
 import Email from './Email'
 import Gender from './Gender'
 import Phone from './Phone'
-import Api from '@/lib/api'
+import * as Api from '@/lib/api'
 import type { User } from '../types'
 import { AxiosError } from 'axios'
 
