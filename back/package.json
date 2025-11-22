@@ -5,7 +5,7 @@
   "author": "Lucas Mondini",
   "private": true,
   "scripts": {
-    "build": "nest build",
+    "build": "yarn prisma && nest build",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "docker:test:up": "docker-compose -f ./test/docker-compose.yml --env-file .env.test up -d ",
