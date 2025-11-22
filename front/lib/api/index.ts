@@ -1,7 +1,7 @@
 import axios from "axios"
 import type { User } from "@/app/users/types"
 
-const BASE_ENDPOINT = 'http://localhost:3001/'
+const BASE_ENDPOINT = process.env.NEXT_PUBLIC_ENDPOINT
 const AUTH_ENDPOINT = BASE_ENDPOINT + 'auth/'
 const USERS_ENDPOINT = BASE_ENDPOINT + 'users/'
 
