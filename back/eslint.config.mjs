@@ -13,7 +13,7 @@ export default defineConfig(
     braceStyle: '1tbs'
   }),
   {
-    ignores: ['eslint.config.mjs'],
+    ignores: ['eslint.config.mjs', 'src/modules/prisma/generated'],
   },
   {
     languageOptions: {

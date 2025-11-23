@@ -1,4 +1,4 @@
-import type { Account } from '@prisma/client'
+import type { Account } from '@/modules/prisma/generated/client'
 
 export const account: Readonly<Account> = {
   id: 1,
