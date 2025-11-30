@@ -22,8 +22,8 @@ export class AuthController {
       const account = await auth().verifyIdToken(token)
 
       await this.authService.sync(account as DecodedAccount)
-    } catch {
-      throw new BadRequestException()
+    } catch (error) {
+      throw new BadRequestException(error)
     }
   }
 

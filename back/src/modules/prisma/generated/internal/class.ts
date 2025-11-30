@@ -19,8 +19,8 @@ const config: runtime.GetPrismaClientConfig = {
   "previewFeatures": [],
   "clientVersion": "7.0.0",
   "engineVersion": "0c19ccc313cf9911a90d99d2ac2eb0280c76c513",
-  "activeProvider": "mysql",
-  "inlineSchema": "generator client {\n  provider     = \"prisma-client\"\n  output       = \"../src/modules/prisma/generated\"\n  moduleFormat = \"cjs\"\n}\n\ndatasource db {\n  provider = \"mysql\"\n}\n\nmodel User {\n  id        Int        @id @default(autoincrement())\n  name      String     @db.VarChar(100)\n  email     String     @db.VarChar(100)\n  phone     String     @db.VarChar(20)\n  gender    UserGender\n  accountId Int        @map(\"account_id\")\n  Account   Account    @relation(fields: [accountId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: \"User_Account_FK\")\n\n  @@index([accountId], map: \"account_id\")\n}\n\nmodel Account {\n  id    Int    @id @default(autoincrement())\n  name  String @db.VarChar(100)\n  email String @db.VarChar(100)\n  uid   String @unique(map: \"Account_UNIQUE\") @db.VarChar(36)\n  User  User[]\n}\n\nenum UserGender {\n  M\n  F\n  O\n}\n",
+  "activeProvider": "postgresql",
+  "inlineSchema": "generator client {\n  provider     = \"prisma-client\"\n  output       = \"../src/modules/prisma/generated\"\n  moduleFormat = \"cjs\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n}\n\nmodel User {\n  id        Int        @id @default(autoincrement())\n  name      String     @db.VarChar(100)\n  email     String     @db.VarChar(100)\n  phone     String     @db.VarChar(20)\n  gender    UserGender\n  accountId Int        @map(\"account_id\")\n  Account   Account    @relation(fields: [accountId], references: [id], onDelete: NoAction, onUpdate: NoAction, map: \"User_Account_FK\")\n\n  @@index([accountId], map: \"account_id\")\n}\n\nmodel Account {\n  id    Int    @id @default(autoincrement())\n  name  String @db.VarChar(100)\n  email String @db.VarChar(100)\n  uid   String @unique(map: \"Account_UNIQUE\") @db.VarChar(36)\n  User  User[]\n}\n\nenum UserGender {\n  M\n  F\n  O\n}\n",
   "runtimeDataModel": {
     "models": {},
     "enums": {},
@@ -37,10 +37,10 @@ async function decodeBase64AsWasm(wasmBase64: string): Promise<WebAssembly.Modul
 }
 
 config.compilerWasm = {
-  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.mysql.js"),
+  getRuntime: async () => await import("@prisma/client/runtime/query_compiler_bg.postgresql.js"),
 
   getQueryCompilerWasmModule: async () => {
-    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.mysql.wasm-base64.js")
+    const { wasm } = await import("@prisma/client/runtime/query_compiler_bg.postgresql.wasm-base64.js")
     return await decodeBase64AsWasm(wasm)
   }
 }

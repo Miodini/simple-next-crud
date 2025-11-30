@@ -217,7 +217,6 @@ export type AccountOrderByWithRelationInput = {
   email?: Prisma.SortOrder
   uid?: Prisma.SortOrder
   User?: Prisma.UserOrderByRelationAggregateInput
-  _relevance?: Prisma.AccountOrderByRelevanceInput
 }
 
 export type AccountWhereUniqueInput = Prisma.AtLeast<{
@@ -306,12 +305,6 @@ export type AccountUncheckedUpdateManyInput = {
 export type AccountScalarRelationFilter = {
   is?: Prisma.AccountWhereInput
   isNot?: Prisma.AccountWhereInput
-}
-
-export type AccountOrderByRelevanceInput = {
-  fields: Prisma.AccountOrderByRelevanceFieldEnum | Prisma.AccountOrderByRelevanceFieldEnum[]
-  sort: Prisma.SortOrder
-  search: string
 }
 
 export type AccountCountOrderByAggregateInput = {
@@ -439,7 +432,19 @@ export type AccountSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   _count?: boolean | Prisma.AccountCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["account"]>
 
+export type AccountSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  name?: boolean
+  email?: boolean
+  uid?: boolean
+}, ExtArgs["result"]["account"]>
 
+export type AccountSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
+  id?: boolean
+  name?: boolean
+  email?: boolean
+  uid?: boolean
+}, ExtArgs["result"]["account"]>
 
 export type AccountSelectScalar = {
   id?: boolean
@@ -453,6 +458,8 @@ export type AccountInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   User?: boolean | Prisma.Account$UserArgs<ExtArgs>
   _count?: boolean | Prisma.AccountCountOutputTypeDefaultArgs<ExtArgs>
 }
+export type AccountIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type AccountIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
 
 export type $AccountPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Account"
@@ -582,6 +589,30 @@ export interface AccountDelegate<ExtArgs extends runtime.Types.Extensions.Intern
   createMany<T extends AccountCreateManyArgs>(args?: Prisma.SelectSubset<T, AccountCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
 
   /**
+   * Create many Accounts and returns the data saved in the database.
+   * @param {AccountCreateManyAndReturnArgs} args - Arguments to create many Accounts.
+   * @example
+   * // Create many Accounts
+   * const account = await prisma.account.createManyAndReturn({
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Create many Accounts and only return the `id`
+   * const accountWithIdOnly = await prisma.account.createManyAndReturn({
+   *   select: { id: true },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  createManyAndReturn<T extends AccountCreateManyAndReturnArgs>(args?: Prisma.SelectSubset<T, AccountCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+  /**
    * Delete a Account.
    * @param {AccountDeleteArgs} args - Arguments to delete one Account.
    * @example
@@ -644,6 +675,36 @@ export interface AccountDelegate<ExtArgs extends runtime.Types.Extensions.Intern
    * 
    */
   updateMany<T extends AccountUpdateManyArgs>(args: Prisma.SelectSubset<T, AccountUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<Prisma.BatchPayload>
+
+  /**
+   * Update zero or more Accounts and returns the data updated in the database.
+   * @param {AccountUpdateManyAndReturnArgs} args - Arguments to update many Accounts.
+   * @example
+   * // Update many Accounts
+   * const account = await prisma.account.updateManyAndReturn({
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * 
+   * // Update zero or more Accounts and only return the `id`
+   * const accountWithIdOnly = await prisma.account.updateManyAndReturn({
+   *   select: { id: true },
+   *   where: {
+   *     // ... provide filter here
+   *   },
+   *   data: [
+   *     // ... provide data here
+   *   ]
+   * })
+   * Note, that providing `undefined` is treated as the value not being there.
+   * Read more here: https://pris.ly/d/null-undefined
+   * 
+   */
+  updateManyAndReturn<T extends AccountUpdateManyAndReturnArgs>(args: Prisma.SelectSubset<T, AccountUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AccountPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
 
   /**
    * Create or update one Account.
@@ -1071,6 +1132,25 @@ export type AccountCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Account createManyAndReturn
+ */
+export type AccountCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Account
+   */
+  select?: Prisma.AccountSelectCreateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Account
+   */
+  omit?: Prisma.AccountOmit<ExtArgs> | null
+  /**
+   * The data used to create many Accounts.
+   */
+  data: Prisma.AccountCreateManyInput | Prisma.AccountCreateManyInput[]
+  skipDuplicates?: boolean
+}
+
+/**
  * Account update
  */
 export type AccountUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1100,6 +1180,32 @@ export type AccountUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
  * Account updateMany
  */
 export type AccountUpdateManyArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * The data used to update Accounts.
+   */
+  data: Prisma.XOR<Prisma.AccountUpdateManyMutationInput, Prisma.AccountUncheckedUpdateManyInput>
+  /**
+   * Filter which Accounts to update
+   */
+  where?: Prisma.AccountWhereInput
+  /**
+   * Limit how many Accounts to update.
+   */
+  limit?: number
+}
+
+/**
+ * Account updateManyAndReturn
+ */
+export type AccountUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Account
+   */
+  select?: Prisma.AccountSelectUpdateManyAndReturn<ExtArgs> | null
+  /**
+   * Omit specific fields from the Account
+   */
+  omit?: Prisma.AccountOmit<ExtArgs> | null
   /**
    * The data used to update Accounts.
    */
