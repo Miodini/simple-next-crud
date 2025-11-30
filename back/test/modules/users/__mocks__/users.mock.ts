@@ -1,5 +1,5 @@
 import { account } from '../../auth/__mocks__/account.mock'
-import type { User } from '@/modules/prisma/generated/client'
+import type { User } from '@prisma/client'
 
 export const users: Readonly<User>[] = [
   {

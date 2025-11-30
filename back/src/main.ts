@@ -1,4 +1,3 @@
-import 'dotenv/config'
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
 import type { NestExpressApplication } from '@nestjs/platform-express'
