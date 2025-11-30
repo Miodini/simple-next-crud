@@ -4,7 +4,7 @@ This is the back-end service for Simple Next Crud web application, made in NestJ
 ## Requirements
 - [Node.js](https://nodejs.org/en/download) v20+
 - [yarn](https://yarnpkg.com) (You can instead use another node package manager by replacing the `yarn` commands in [package.json](/package.json))
-- [Docker](https://www.docker.com) and Docker Compose (You can instead point to any other MySQL database by removing the docker-compose steps in [package.json](/package.json).)
+- [Docker](https://www.docker.com) and Docker Compose (You can instead point to any other PostgreSQL database by removing the docker-compose steps in [package.json](/package.json).)
 
 ## How to Run
 **Note:** This tutorial assumes you are using `yarn` as the package manager and using Docker for hosting the database.
