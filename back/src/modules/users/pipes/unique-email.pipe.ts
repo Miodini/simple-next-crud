@@ -4,7 +4,7 @@ import {
 import { REQUEST } from '@nestjs/core'
 import type { Request } from 'express'
 import { Prisma } from '@prisma/client'
-import { PrismaService } from '@/modules/prisma/prisma.service'
+import { PrismaService } from '../../prisma/prisma.service'
 import { CreateUserDto, UpdateUserDto } from '../users.dto'
 import { DuplicateEmailExpection } from '../exceptions/duplicate-email.exception'
 
