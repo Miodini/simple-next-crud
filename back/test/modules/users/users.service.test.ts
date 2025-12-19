@@ -25,7 +25,7 @@ describe('UsersService', () => {
   describe('getAll', () => {
     it('should return all users', async () => {
       prismaService.user.findMany.mockResolvedValue(users)
-      expect(await usersService.getAll()).toBe(users)
+      expect(await usersService.getAll(users[0].accountId)).toBe(users)
     })
   })
 

@@ -12,7 +12,7 @@ describe('UserController', () => {
   describe('getAll', () => {
     it('should return all users', async () => {
       usersService.getAll.mockResolvedValue(users)
-      await expect(usersController.getAll()).resolves.toBe(users)
+      await expect(usersController.getAll(users[0].accountId)).resolves.toBe(users)
     })
   })
 
