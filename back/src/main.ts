@@ -1,6 +1,6 @@
 import { NestFactory } from '@nestjs/core'
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger'
-import type { NestExpressApplication } from '@nestjs/platform-express'
+import { ExpressAdapter, type NestExpressApplication } from '@nestjs/platform-express'
 import { AppModule } from './modules/app.module'
 
 function buildSwagger(app: NestExpressApplication) {
@@ -15,8 +15,8 @@ function buildSwagger(app: NestExpressApplication) {
   SwaggerModule.setup('api', app, documentFactory)
 }
 
-async function bootstrap() {
-  const app = await NestFactory.create<NestExpressApplication>(AppModule)
+export async function createApp(adapter: ExpressAdapter): Promise<NestExpressApplication> {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, adapter)
 
   if (process.env.NODE_ENV === 'development') {
     app.enableCors({
@@ -26,6 +26,5 @@ async function bootstrap() {
   }
 
   buildSwagger(app)
-  await app.listen(process.env.PORT ?? 3001)
+  return app
 }
-void bootstrap()
