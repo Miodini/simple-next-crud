@@ -6,7 +6,7 @@
   "private": true,
   "packageManager": "yarn@4.12.0",
   "scripts": {
-    "build": "yarn prisma && nest build -p ./tsconfig.json",
+    "build": "yarn prisma && nest build",
     "docker:up": "docker-compose up -d",
     "docker:down": "docker-compose down",
     "docker:test:up": "docker-compose -f ./test/docker-compose.yml --env-file .env.test up -d ",
