@@ -2,7 +2,7 @@
 import { ExpressAdapter, type NestExpressApplication } from '@nestjs/platform-express'
 import express from 'express'
 import type { Request, Response } from 'express'
-import { createApp } from '@/main'
+import { createApp } from '../src/create-app'
 
 const server = express()
 let nestApp: NestExpressApplication

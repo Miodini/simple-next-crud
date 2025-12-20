@@ -1,8 +1,8 @@
 import { mockDeep } from 'jest-mock-extended'
 import { BadRequestException } from '@nestjs/common'
-import { AuthController } from '@/modules/auth/auth.controller'
-import { AuthService } from '@/modules/auth/auth.service'
-import type { Request } from '@/common/types/request.type'
+import { AuthController } from '../../../src/modules/auth/auth.controller'
+import { AuthService } from '../../../src/modules/auth/auth.service'
+import type { Request } from '../../../src/common/types/request.type'
 
 const mockVerifyIdToken = jest.fn()
 

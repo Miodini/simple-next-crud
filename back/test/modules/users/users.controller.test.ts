@@ -1,7 +1,7 @@
 import { NotFoundException } from '@nestjs/common'
 import { mockDeep } from 'jest-mock-extended'
-import { UsersService } from '@/modules/users/users.service'
-import { UsersController } from '@/modules/users/users.controller'
+import { UsersService } from '../../../src/modules/users/users.service'
+import { UsersController } from '../../../src/modules/users/users.controller'
 import type { User } from '@prisma/client'
 import { users } from './__mocks__/users.mock'
 

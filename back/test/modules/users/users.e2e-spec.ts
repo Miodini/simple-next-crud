@@ -1,15 +1,15 @@
 import request from 'supertest'
 import { Test } from '@nestjs/testing'
 import { ValidationPipe, type INestApplication } from '@nestjs/common'
-import { PrismaService } from '@/modules/prisma/prisma.service'
-import { AuthGuard } from '@/modules/auth/auth.guard'
-import { UsersModule } from '@/modules/users/users.module'
-import { AuthModule } from '@/modules/auth/auth.module'
-import { PrismaModule } from '@/modules/prisma/prisma.module'
+import { PrismaService } from '../../../src/modules/prisma/prisma.service'
+import { AuthGuard } from '../../../src/modules/auth/auth.guard'
+import { UsersModule } from '../../../src/modules/users/users.module'
+import { AuthModule } from '../../../src/modules/auth/auth.module'
+import { PrismaModule } from '../../../src/modules/prisma/prisma.module'
 import { account } from '../auth/__mocks__/account.mock'
 import { users } from './__mocks__/users.mock'
 import { AuthGuardMock } from '../auth/__mocks__/auth.guard.mock'
-import type { GetUserDto, CreateUserDto, UpdateUserDto } from '@/modules/users/users.dto'
+import type { GetUserDto, CreateUserDto, UpdateUserDto } from '../../../src/modules/users/users.dto'
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-return
 const createGetUserMatcher = (user: CreateUserDto) => expect.objectContaining<GetUserDto>({

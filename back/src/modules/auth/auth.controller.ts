@@ -2,8 +2,8 @@ import { BadRequestException, Controller, Req, Post } from '@nestjs/common'
 import { ApiBearerAuth, ApiOperation } from '@nestjs/swagger'
 import { AuthService } from './auth.service'
 import { auth } from 'firebase-admin'
-import type { DecodedAccount } from '@/common/types/decoded-account.type'
-import type { Request } from '@/common/types/request.type'
+import type { DecodedAccount } from '../../common/types/decoded-account.type'
+import type { Request } from '../../common/types/request.type'
 
 @ApiBearerAuth()
 @Controller('auth')

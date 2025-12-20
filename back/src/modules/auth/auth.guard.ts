@@ -2,7 +2,7 @@ import { Injectable, CanActivate, ExecutionContext, UnauthorizedException } from
 import { auth } from 'firebase-admin'
 import { initializeApp } from 'firebase-admin/app'
 import { PrismaService } from '../prisma/prisma.service'
-import type { Request } from '@/common/types/request.type'
+import type { Request } from '../../common/types/request.type'
 
 @Injectable()
 export class AuthGuard implements CanActivate {

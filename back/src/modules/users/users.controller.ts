@@ -7,8 +7,8 @@ import { GetUserDto, CreateUserDto, UpdateUserDto } from './users.dto'
 import { UniqueEmailPipe } from './pipes/unique-email.pipe'
 import { UserValidationPipe } from './pipes/user-validation.pipe'
 import { UserNotFoundException } from './exceptions/user-not-found.exception'
-import { AccountId } from '@/common/decorators/account-id.decorator'
-import { AuthGuard } from '@/modules/auth/auth.guard'
+import { AccountId } from '../../common/decorators/account-id.decorator'
+import { AuthGuard } from '../auth/auth.guard'
 
 @ApiBearerAuth()
 @Controller('users')

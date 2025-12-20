@@ -1,4 +1,4 @@
-import type { DecodedAccount } from '@/common/types/decoded-account.type'
+import type { DecodedAccount } from 'src/common/types/decoded-account.type'
 
 export const decodedAccount: DecodedAccount = {
   aud: 'abc',

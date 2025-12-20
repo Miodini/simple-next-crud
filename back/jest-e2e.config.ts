@@ -8,9 +8,6 @@ import type { Config } from 'jest'
 const config: Config = {
   moduleDirectories: ['node_modules', 'src'],
   moduleFileExtensions: ['ts', 'js'],
-  moduleNameMapper: {
-    '@/(.*)': '<rootDir>/src/$1'
-  },
   rootDir: '.',
   testEnvironment: 'node',
   testRegex: '.e2e-spec.ts$',
