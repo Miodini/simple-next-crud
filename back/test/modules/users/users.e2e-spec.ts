@@ -35,8 +35,13 @@ describe('Users', () => {
     await app.init()
 
     prismaService = app.get(PrismaService)
-    await prismaService.account.deleteMany()
-    await prismaService.account.create({ data: account })
+
+    const matchedAccount = await prismaService.account.findFirst({ where: { id: account.id } })
+
+    if (!matchedAccount) {
+      // Create new account if not present
+      await prismaService.account.create({ data: account })
+    }
   })
 
   beforeEach(async () => {
