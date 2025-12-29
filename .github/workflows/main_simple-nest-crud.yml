@@ -15,7 +15,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read #This is required for actions/checkout
-
+    defaults:
+      run:
+        working-directory: ./back
     steps:
       - uses: actions/checkout@v4
 
@@ -24,9 +26,6 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: Switch to BE folder
-        run: cd back
-
       - name: yarn install and build
         run: yarn && yarn build
 
@@ -34,7 +33,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: ./dist
+          path: ./back/dist
 
   deploy:
     runs-on: ubuntu-latest
@@ -65,3 +64,4 @@ jobs:
           package: .
 
           
+
