@@ -18,7 +18,7 @@ jobs:
       contents: read #This is required for actions/checkout
 
     env:
-      DATABASE_URL: ${{ secrets.DATABASE_URL }}
+      POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
 
     defaults:
       run:
@@ -75,6 +75,7 @@ jobs:
           package: .
 
           
+
 
 
 
