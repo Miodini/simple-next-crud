@@ -1,5 +1,6 @@
 # Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # More GitHub Actions for Azure: https://github.com/Azure/actions
+# For back-end deployment
 
 name: Build and deploy Node.js app to Azure Web App - simple-nest-crud
 
@@ -23,17 +24,17 @@ jobs:
         with:
           node-version: '22.x'
 
-      - name: npm install, build, and test
-        run: |
-          npm install
-          npm run build --if-present
-          npm run test --if-present
+      - name: Switch to BE folder
+        run: cd back
+
+      - name: yarn install and build
+        run: yarn && yarn build
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: node-app
-          path: .
+          path: ./dist
 
   deploy:
     runs-on: ubuntu-latest
@@ -62,4 +63,5 @@ jobs:
           app-name: 'simple-nest-crud'
           slot-name: 'Production'
           package: .
+
           
